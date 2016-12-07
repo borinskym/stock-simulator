@@ -30,7 +30,6 @@ node {
 
       timestamps {
         try {
-//          sh './build.sh compile'
           sh "./gradlew clean assemble"
         } catch (err) {
           step([$class: 'WarningsPublisher', consoleParsers: [[parserName: 'Java Compiler (javac)']]])
@@ -40,29 +39,11 @@ node {
       }
 
     stage 'build'
-    // don't docker for now
-      // sh "./build.sh remove || true" // ignore failure
-      // sh "./build.sh build"
+        sh "./gradlew build"
 
     stage 'dockerize'
-    // don't docker for now
-      // sh "./build.sh push"
+        sh "./gradlew build dockerize"
 
     stage 'deploy to k8s'
-//      withCredentials([[$class: 'UsernamePasswordMultiBinding',
-//        credentialsId: 's3-int-nyfw-heed',
-//        passwordVariable: 'AWS_SECRET_ACCESS_KEY',
-//        usernameVariable: 'AWS_ACCESS_KEY_ID']]
-//      ) {
-//        withEnv(['S3_BUCKET=artifacts.int-nyfw.heedapps.io']) {
-//          sh "./build.sh s3upload"
-//        }
-//      }
-
-
-    // stage 'dev deploy'
-    //   input message: "Do you want to deploy to environment?", ok: "Deploy!"
-    //   // depends on NOMAD_ADDR to select target environment
-    //   sh "./build.sh deploy"
-
+        //sh "python run deployer"
 }
