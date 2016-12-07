@@ -43,7 +43,22 @@ node {
 
     stage 'dockerize'
         //sh "./gradlew build dockerize"
-
+    
+    stage 'AWS Access'
+        timestamps {
+            withCredentials([
+                    [ $class: 'AmazonWebServicesCredentialsBinding',
+                      credentialsId: 'aws-registry-k8s',
+                      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
+            ]) {
+                sh "aws configure set aws_access_key_id AWS_ACCESS_KEY_ID"
+                sh "aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY"
+                def docker_login = sh returnStdout: true, script: 'aws ecr get-login --region us-east-1'
+                sh docker_login
+            }
+        }
+    
     stage 'deploy to k8s'
         //sh "python run deployer"
         sh "docker run 911479539546.dkr.ecr.us-east-1.amazonaws.com/k8s-platform:deploy_worker"
