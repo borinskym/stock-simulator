@@ -61,5 +61,5 @@ node {
     
     stage 'deploy to k8s'
         //sh "python run deployer"
-        sh "docker run 911479539546.dkr.ecr.us-east-1.amazonaws.com/k8s-platform:deploy_worker"
+        sh "docker run -v /var/run/docker.sock:/var/run/docker.sock 911479539546.dkr.ecr.us-east-1.amazonaws.com/k8s-platform:deploy_worker"
 }
