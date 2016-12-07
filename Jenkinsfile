@@ -30,7 +30,7 @@ node {
 
       timestamps {
         try {
-          sh "./gradlew clean assemble"
+          //sh "./gradlew clean assemble"
         } catch (err) {
           step([$class: 'WarningsPublisher', consoleParsers: [[parserName: 'Java Compiler (javac)']]])
           gitlabCommitStatus { }
@@ -39,11 +39,12 @@ node {
       }
 
     stage 'build'
-        sh "./gradlew build"
+        //sh "./gradlew build"
 
     stage 'dockerize'
-        sh "./gradlew build dockerize"
+        //sh "./gradlew build dockerize"
 
     stage 'deploy to k8s'
         //sh "python run deployer"
+        sh "docker run 911479539546.dkr.ecr.us-east-1.amazonaws.com/k8s-platform:deploy_worker"
 }
