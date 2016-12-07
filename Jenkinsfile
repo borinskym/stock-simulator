@@ -30,7 +30,8 @@ node {
 
       timestamps {
         try {
-          sh './build.sh compile'
+//          sh './build.sh compile'
+          './gradlew clean assemble'.execute()
         } catch (err) {
           step([$class: 'WarningsPublisher', consoleParsers: [[parserName: 'Java Compiler (javac)']]])
           gitlabCommitStatus { }
