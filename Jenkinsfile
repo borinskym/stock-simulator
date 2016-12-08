@@ -62,7 +62,7 @@ node {
     
     stage 'deploy to k8s'
         def releaseScript = readFileFromWorkspace('config.yml')
-        groovyCommand(print releaseScript as Map)
+        groovyCommand("print releaseScript as Map")
     
         //sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=911479539546.dkr.ecr.us-east-1.amazonaws.com/service_stub:latest -t " + AWS_REPO_URI + "/k8s-deployer:latest"
 }
