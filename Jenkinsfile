@@ -9,7 +9,8 @@ properties([
 
 // https://jenkins.io/doc/pipeline/steps/
 node {
-
+    static final String def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
+    
     stage 'clean'
       // start with an empty workspace
       deleteDir()
@@ -60,5 +61,5 @@ node {
         }
     
     stage 'deploy to k8s'
-        sh "docker run -v /var/run/docker.sock:/var/run/docker.sock 911479539546.dkr.ecr.us-east-1.amazonaws.com/k8s-platform:k8s-deployer"
+        sh "docker run -v /var/run/docker.sock:/var/run/docker.sock " + AWS_REPO_URI + "/k8s-platform:k8s-deployer"
 }
