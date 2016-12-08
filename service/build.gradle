@@ -1,10 +1,11 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven { url "http://om-artifactory.mm.local:8081//artifactory/libs-develop-local" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
-        //classpath "om:k8s-deploy:0.1.5"
+        classpath "om:k8s-dockerize:0.1.8"
     }
 }
 
@@ -13,7 +14,7 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'groovy'
 apply plugin: 'application'
-//apply plugin: 'k8s-deploy'
+apply plugin: 'k8s-dockerize'
 
 
 jar {
@@ -48,4 +49,8 @@ dependencies {
     testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.13'
 }
