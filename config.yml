@@ -1,2 +1,5 @@
 name: hello-world-java
 version: 0.1.0
+image: hello-world-java:0.1.0
+
+
