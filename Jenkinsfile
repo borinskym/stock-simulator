@@ -61,5 +61,5 @@ node {
         }
     
     stage 'deploy to k8s'
-        sh "docker run -v /var/run/docker.sock:/var/run/docker.sock " + AWS_REPO_URI + "/k8s-platform:k8s-deployer"
+        sh "docker run -v /var/run/docker.sock:/var/run/docker.sock " + AWS_REPO_URI + "/k8s-deployer:latest"
 }
