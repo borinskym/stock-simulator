@@ -9,7 +9,7 @@ properties([
 
 // https://jenkins.io/doc/pipeline/steps/
 node {
-    static final String def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
+    static final string def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
     
     stage 'clean'
       // start with an empty workspace
