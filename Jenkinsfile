@@ -62,11 +62,7 @@ node {
     
     stage 'deploy to k8s'
         
-        groovyCommand("
-                import org.yaml.snakeyaml.Yaml
-                Yaml yaml = new Yaml()
-                print yaml.load(config.yml)
-            ")
+        groovyCommand("import org.yaml.snakeyaml.Yaml Yaml yaml = new Yaml() print yaml.load(config.yml)")
     
         //sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=911479539546.dkr.ecr.us-east-1.amazonaws.com/service_stub:latest -t " + AWS_REPO_URI + "/k8s-deployer:latest"
 }
