@@ -40,11 +40,14 @@ node {
       }
 
     stage 'build'
-        //sh "./gradlew build"
+        sh "./gradlew build"
 
     stage 'dockerize'
-        //sh "./gradlew build dockerize"
-    
+        sh "cd service && ./gradlew build dockerize"
+
+    stage 'upload docker'
+        sh "docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0"
+
     stage 'AWS Access'
         timestamps {
             withCredentials([
