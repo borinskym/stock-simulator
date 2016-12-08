@@ -64,5 +64,5 @@ node {
         }
     
     stage 'deploy to k8s'
-        sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world:0.1.0 -t " + AWS_REPO_URI + "/k8s-deployer:latest"
+        sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0 -t " + AWS_REPO_URI + "/k8s-deployer:latest"
 }
