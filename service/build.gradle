@@ -4,7 +4,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
-        classpath "om:k8s-deploy:0.1.5"
+        //classpath "om:k8s-deploy:0.1.5"
     }
 }
 
@@ -13,7 +13,7 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 apply plugin: 'groovy'
 apply plugin: 'application'
-apply plugin: 'k8s-deploy'
+//apply plugin: 'k8s-deploy'
 
 
 jar {
