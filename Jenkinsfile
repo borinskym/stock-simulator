@@ -1,3 +1,5 @@
+import org.yaml.snakeyaml.Yaml
+
 properties([
   // disableConcurrentBuilds(),
   pipelineTriggers([]),
