@@ -5,7 +5,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
-        classpath "om:k8s-dockerize:0.1.10"
+        classpath "om:k8s-dockerize:0.1.+"
     }
 }
 

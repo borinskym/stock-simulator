@@ -59,7 +59,7 @@ node {
                 sh docker_login
             }
         }
-        
+
     stage 'upload docker'
         sh "docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0"
 
