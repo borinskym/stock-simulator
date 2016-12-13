@@ -43,6 +43,8 @@ node {
         sh "./gradlew build"
 
     stage 'dockerize'
+        //cd service && ./gradlew dockerize
+        sh "cd service"
         sh "ls -la"
         
 
