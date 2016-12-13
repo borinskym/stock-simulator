@@ -43,7 +43,6 @@ node {
         sh "./gradlew build"
 
     stage 'dockerize'
-        // sh "cd service && ./gradlew dockerize"
         sh "ls -la"
 
     stage 'AWS Access'
