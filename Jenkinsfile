@@ -44,8 +44,7 @@ node {
 
     stage 'dockerize'
         //cd service && ./gradlew dockerize
-        sh "cd service && ls -la"
-        sh "ls -la"
+        sh "cd service && ls -la && ./gradlew dockerize"
         
 
     stage 'AWS Access'
