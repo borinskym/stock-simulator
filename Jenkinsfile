@@ -14,6 +14,7 @@ node {
     stage 'clean'
       // start with an empty workspace
       deleteDir()
+      $(docker images -f "dangling=true" -q --no-trunc) | xargs docker rmi -f
 
     stage 'checkout'
       checkout scm
@@ -62,7 +63,8 @@ node {
             }
         }
 
-    stage 'upload docker'
+    stage 'delete older image with same version and upload new image'
+        sh "RUN aws ecr batch-delete-image --repository-name hello-world-java --image-ids imageTag=0.1.0"
         sh "docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0"
 
 
