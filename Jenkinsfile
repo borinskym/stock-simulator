@@ -17,10 +17,11 @@ node {
       deleteDir()
       // delete images
       def docker_dangling_imgs = sh returnStdout: true, script: 'docker images -f \"dangling=true\" -q --no-trunc'
-      print 'docker:::' + docker_dangling_imgs
-      if (!docker_docker_dangling_imgs) { // || !(docker_docker_dangling_imgs.equals(""))) {
-         sh "docker rmi -f" + docker_dangling_imgs
-      }
+      print 'docker:::' + docker_dangling_imgs + 'class:' + docker_dangling_imgs.class
+
+ //     if (!docker_docker_dangling_imgs) { // || !(docker_docker_dangling_imgs.equals(""))) {
+  //       sh "docker rmi -f" + docker_dangling_imgs
+   //   }
 
     stage 'checkout'
       checkout scm
