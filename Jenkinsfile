@@ -10,7 +10,7 @@ properties([
 // https://jenkins.io/doc/pipeline/steps/
 node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
-    static final def REGISRTY_SERVICE_URI = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
+    //static final def REGISRTY_SERVICE_URI = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
 
     stage 'clean'
       // start with an empty workspace
@@ -63,15 +63,17 @@ node {
                 sh "aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY"
                 def docker_login = sh returnStdout: true, script: 'aws ecr get-login --region us-east-1'
                 sh docker_login
-		sh "aws ecr --region us-east-1 batch-delete-image --repository-name hello-world-java --image-ids imageTag=0.1.0"
+		//sh "aws ecr --region us-east-1 batch-delete-image --repository-name hello-world-java --image-ids imageTag=0.1.0"
             }
         }
 
-    stage 'push docker image'
-        sh "docker push " + REGISRTY_SERVICE_URI
+    //stage 'push docker image'
+        //sh "docker push " + REGISRTY_SERVICE_URI
 
 
     stage 'deploy to k8s'
-        def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=${REGISRTY_SERVICE_URI}  -t ${AWS_REPO_URI}/k8s-deployer:latest"
+         def dockerImageUri = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
+        def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + dockerImageUri + ""  -t ${AWS_REPO_URI}/k8s-deployer:latest"
+        //def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=${REGISRTY_SERVICE_URI}  -t ${AWS_REPO_URI}/k8s-deployer:latest"
         sh runCommand
 }

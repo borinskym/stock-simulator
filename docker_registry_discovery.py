@@ -1,5 +1,7 @@
+import os
 import sys
 
+print "reading config.yml"
 f = open('config.yml', 'r')
 
 registryUri = "911479539546.dkr.ecr.us-east-1.amazonaws.com" #hard coded for now
@@ -9,5 +11,26 @@ for line in f.readlines():
     splited = line.split(':')
     conf[splited[0]] = splited[1].strip()
 
+print "clear from registry old version"
+os.system("aws ecr --region us-east-1 batch-delete-image --repository-name" + conf['name']  + "--image-ids imageTag=" + conf['version'])
+
 retVal = registryUri + "/" + conf['name'] + ":" + conf['version']
+
+print "push new version to registry"
+os.system("docker push " + retVal)
+
 sys.stdout.write(retVal)
+
+# import sys
+#
+# f = open('config.yml', 'r')
+#
+# registryUri = "911479539546.dkr.ecr.us-east-1.amazonaws.com" #hard coded for now
+#
+# conf = {}
+# for line in f.readlines():
+#     splited = line.split(':')
+#     conf[splited[0]] = splited[1].strip()
+#
+# retVal = registryUri + "/" + conf['name'] + ":" + conf['version']
+# sys.stdout.write(retVal)
