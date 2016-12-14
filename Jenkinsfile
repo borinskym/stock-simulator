@@ -41,7 +41,8 @@ node {
       }
 
     stage 'build'
-        load 'common.groovy'
+        def thing = load 'common.groovy'
+        echo thing.readServiceConfiguration('config.yml')
         //sh "./gradlew build"
 
     stage 'dockerize'

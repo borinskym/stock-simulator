@@ -9,3 +9,4 @@ class common {
         print(load)
     }
 }
+return new common();
