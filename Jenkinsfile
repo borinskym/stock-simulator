@@ -73,7 +73,7 @@ node {
 
     stage 'deploy to k8s'
          def dockerImageUri = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
-        def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + dockerImageUri + ""  -t ${AWS_REPO_URI}/k8s-deployer:latest"
+        def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + dockerImageUri + "  -t ${AWS_REPO_URI}/k8s-deployer:latest"
         //def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=${REGISRTY_SERVICE_URI}  -t ${AWS_REPO_URI}/k8s-deployer:latest"
         sh runCommand
 }
