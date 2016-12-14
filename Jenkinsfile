@@ -13,6 +13,10 @@ node {
     //static final def REGISRTY_SERVICE_URI = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
 
     stage 'clean'
+        print project.ssh_url_to_repo
+        print project.default_branch
+        print project_name_canonical
+        print scm
       // start with an empty workspace
       deleteDir()
       // delete images
