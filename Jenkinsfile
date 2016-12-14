@@ -1,4 +1,3 @@
-
 properties([
   // disableConcurrentBuilds(),
   pipelineTriggers([]),
@@ -37,7 +36,7 @@ node {
 
       timestamps {
         try {
-          //sh "./gradlew clean assemble"
+           "./gradlew clean assemble"
         } catch (err) {
           step([$class: 'WarningsPublisher', consoleParsers: [[parserName: 'Java Compiler (javac)']]])
           gitlabCommitStatus { }
@@ -46,11 +45,10 @@ node {
       }
 
     stage 'build'
-        def ret = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
-        println ret
+        sh "./gradlew build"
 
     stage 'dockerize'
-        //sh "cd service && ./gradlew dockerize"
+        sh "cd service && ./gradlew dockerize"
 
     stage 'AWS Access'
         timestamps {
@@ -70,9 +68,10 @@ node {
         }
 
     stage 'push docker image'
-       // sh "docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0"
+        def dockerImage = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
+        sh "docker push " + dockerImage
 
 
     stage 'deploy to k8s'
-        //sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0 -t " + AWS_REPO_URI + "/k8s-deployer:latest"
+        sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0 -t " + AWS_REPO_URI + "/k8s-deployer:latest"
 }
