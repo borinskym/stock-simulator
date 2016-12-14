@@ -47,7 +47,7 @@ node {
       }
 
     stage 'build'
-        def ret = sh(script: 'cat config.yml', returnStdout: true)
+        def ret = sh(script: 'cat config.yml', returnStdout: true) as Map
         println ret
         //sh "./gradlew build"
         //SERVICE_CONFIG = sh (
