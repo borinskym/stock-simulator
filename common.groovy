@@ -1,4 +1,4 @@
-import javaposse.jobdsl.dsl.helpers.*
+import org.yaml.snakeyaml.Yaml
 
 class common {
 
