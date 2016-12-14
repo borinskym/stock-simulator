@@ -14,7 +14,7 @@ node {
 
     stage 'clean'
         print '=====>'
-        print env.each { print it }
+        print env.BRANCH_NAME
       // start with an empty workspace
       deleteDir()
       // delete images
