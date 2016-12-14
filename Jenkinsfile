@@ -79,6 +79,9 @@ node {
                               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
                     ]) {
                         def dockerImageUri = sh(script: 'python docker_registry_discovery.py ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY}', returnStdout: true)
+
+                        def docker_login = sh returnStdout: true, script: 'aws ecr get-login --region us-east-1'
+                         sh docker_login
                         def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + dockerImageUri + "  -t ${AWS_REPO_URI}/k8s-deployer:latest"
                         sh runCommand
                     }
