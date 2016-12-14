@@ -32,7 +32,10 @@ print "retVal -> " + retVal
 print "push new version to registry"
 os.system("docker push " + retVal)
 
-sys.stdout.write(retVal)
+#sys.stdout.write(retVal)
+
+print "run deployer"
+os.system("docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + retVal + " -t " + registryUri + "/k8s-deployer:latest")
 
 # import sys
 #
