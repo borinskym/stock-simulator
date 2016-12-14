@@ -80,14 +80,5 @@ node {
                               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
                     ]) {
                         dockerImageUri = sh(script: 'python docker_registry_discovery.py ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY}', returnStdout: true)
-                        print "URIIIII -> " + dockerImageUri
-                        //def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + dockerImageUri + "  -t ${AWS_REPO_URI}/k8s-deployer:latest"
-                        //sh runCommand
                     }
-                    print "URIIIII -> " + dockerImageUri
-
-         //def dockerImageUri = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
-        //def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + dockerImageUri + "  -t ${AWS_REPO_URI}/k8s-deployer:latest"
-        //def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=${REGISRTY_SERVICE_URI}  -t ${AWS_REPO_URI}/k8s-deployer:latest"
-        //sh runCommand
 }
