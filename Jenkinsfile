@@ -16,8 +16,10 @@ node {
       // start with an empty workspace
       deleteDir()
       // delete images
-      def docker_dangling_imgs = sh returnStdout: true, script: 'docker images -f \"dangling=true\" -q --no-trunc'
-      sh "docker rmi -f" + docker_dangling_imgs
+     // def docker_dangling_imgs = sh returnStdout: true, script: 'docker images -f \"dangling=true\" -q --no-trunc'
+     // if (docker_docker_dangling_imgs) {
+     //    sh "docker rmi -f" + docker_dangling_imgs
+     // }
 
     stage 'checkout'
       checkout scm
