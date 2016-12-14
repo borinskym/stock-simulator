@@ -18,7 +18,6 @@ for line in f.readlines():
 os.system("aws configure set aws_access_key_id " + sys.argv[1])
 os.system("aws configure set aws_secret_access_key " + sys.argv[2])
 os.system("aws ecr get-login --region us-east-1")
-#print "clear from registry old version"
 os.system("aws ecr --region us-east-1 batch-delete-image --repository-name hello-world-java --image-ids imageTag=0.1.0")
 #os.system("aws ecr --region us-east-1 batch-delete-image --repository-name" + conf['name']  + "--image-ids imageTag=" + conf['version'])
 
