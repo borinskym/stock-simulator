@@ -14,7 +14,7 @@ node {
 
     stage 'clean'
         print '=====>'
-        print env.getProperties().toString()
+        print env.each { print it }
       // start with an empty workspace
       deleteDir()
       // delete images
