@@ -70,11 +70,12 @@ node {
                 sh "aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY"
                 def docker_login = sh returnStdout: true, script: 'aws ecr get-login --region us-east-1'
                 sh docker_login
+                def delete_old_image = sh returnStdout: true, script: 'aws ecr batch-delete-image --repository-name hello-world-java --image-ids imageTag=0.1.0'
+                sh delete_old_image
             }
         }
 
-    stage 'delete previous image with the same version and a new image'
- //       sh "aws ecr --region us-east-1 batch-delete-image --repository-name hello-world-java --image-ids imageTag=0.1.0"
+    stage 'push docker image'
        // sh "docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0"
 
 
