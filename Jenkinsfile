@@ -73,7 +73,8 @@ node {
             }
         }
 
-    stage 'upload docker'
+    stage 'delete previous image with the same version and a new image'
+        sh "RUN aws ecr batch-delete-image --repository-name hello-world-java --image-ids imageTag=0.1.0"
        // sh "docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0"
 
 
