@@ -47,12 +47,14 @@ node {
       }
 
     stage 'build'
+        def ret = sh(script: 'config.yml', returnStdout: true)
+        println ret
         //sh "./gradlew build"
-        SERVICE_CONFIG = sh (
-            script: 'cat config.yml',
-            returnStdout: true
-        ).trim()
-        echo ${SERVICE_CONFIG}
+        //SERVICE_CONFIG = sh (
+            //script: 'cat config.yml',
+            //returnStdout: true
+        //).trim()
+        //echo ${SERVICE_CONFIG}
 
     stage 'dockerize'
         //sh "cd service && ./gradlew dockerize"
