@@ -11,4 +11,5 @@ for line in f.readlines():
 
 
 for arg in sys.argv: 1
-print arg + "/" + conf['name'] + ":" + conf['version'] ,  # trailing comma
+retVal = arg + "/" + conf['name'] + ":" + conf['version']
+print retVal.strip() ,
