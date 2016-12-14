@@ -13,6 +13,7 @@ node {
     //static final def REGISRTY_SERVICE_URI = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
 
     stage 'clean'
+        print env
       // start with an empty workspace
       deleteDir()
       // delete images
