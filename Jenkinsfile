@@ -10,7 +10,8 @@ properties([
 // https://jenkins.io/doc/pipeline/steps/
 node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
-    static final def REGISRTY_SERVICE_URI = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
+    //static final def REGISRTY_SERVICE_URI = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
+    static final def REGISRTY_SERVICE_URI = sh 'python docker_registry_discovery.py'
 
     stage 'clean'
       // start with an empty workspace
@@ -68,7 +69,6 @@ node {
         }
 
     stage 'push docker image'
-        //def dockerImage = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
         sh "docker push " + REGISRTY_SERVICE_URI
 
 
