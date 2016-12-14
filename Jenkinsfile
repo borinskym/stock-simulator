@@ -73,7 +73,7 @@ node {
 
 
     stage 'deploy to k8s'
-        print REGISRTY_SERVICE_URI + AWS_REPO_URI
+        print AWS_REPO_URI + REGISRTY_SERVICE_URI
         def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=${REGISRTY_SERVICE_URI}  -t ${AWS_REPO_URI}/k8s-deployer:latest"
         sh runCommand
 }
