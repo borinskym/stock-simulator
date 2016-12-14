@@ -11,5 +11,4 @@ for line in f.readlines():
 
 
 for arg in sys.argv: 1
-retVal = arg + "/" + conf['name'] + ":" + conf['version']
-sys.stdout.write(retVal,) # trailing comma
+print arg + "/" + conf['name'] + ":" + conf['version'] ,  # trailing comma
