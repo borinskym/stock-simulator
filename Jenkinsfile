@@ -12,6 +12,10 @@ node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
     
     stage 'clean'
+        print project.ssh_url_to_repo
+        print project.default_branch
+        print project_name_canonical
+        print scm
       // start with an empty workspace
       deleteDir()
 
