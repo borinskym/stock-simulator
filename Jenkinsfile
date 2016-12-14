@@ -19,7 +19,7 @@ node {
       def docker_dangling_imgs = sh returnStdout: true, script: 'docker images -f \"dangling=true\" -q --no-trunc'
       print 'docker:::' + docker_dangling_imgs + 'class:' + docker_dangling_imgs.class
 
-      if (docker_dangling_imgs.equals("")) {
+      if (!docker_dangling_imgs.equals("")) {
          sh "docker rmi -f" + docker_dangling_imgs
       }
 
