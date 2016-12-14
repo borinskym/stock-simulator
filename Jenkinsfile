@@ -10,6 +10,7 @@ properties([
 // https://jenkins.io/doc/pipeline/steps/
 node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
+    static final def REGISRTY_SERVICE_URI = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
 
     stage 'clean'
       // start with an empty workspace
@@ -67,10 +68,10 @@ node {
         }
 
     stage 'push docker image'
-        def dockerImage = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
-        sh "docker push " + dockerImage
+        //def dockerImage = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
+        sh "docker push " + REGISRTY_SERVICE_URI
 
 
     stage 'deploy to k8s'
-        sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0 -t " + AWS_REPO_URI + "/k8s-deployer:latest"
+        sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + REGISRTY_SERVICE_URI + " -t " + AWS_REPO_URI + "/k8s-deployer:latest"
 }
