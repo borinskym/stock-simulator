@@ -18,7 +18,7 @@ node {
       // delete images
       def docker_dangling_imgs = sh returnStdout: true, script: 'docker images -f \"dangling=true\" -q --no-trunc'
       if (!docker_dangling_imgs.equals("")) {
-         sh "docker rmi -f" + docker_dangling_imgs
+         sh "docker rmi -f " + docker_dangling_imgs
       }
 
     stage 'checkout'
