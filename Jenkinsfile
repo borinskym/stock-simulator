@@ -42,8 +42,7 @@ node {
 
     stage 'build'
         node {
-            def workspace = pwd()
-            load "@script/common.groovy"
+            load "common.groovy"
         }
         load 'common.groovy'
         //sh "./gradlew build"
