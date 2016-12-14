@@ -14,7 +14,7 @@ node {
     stage 'clean'
       // start with an empty workspace
       deleteDir()
-      sh "$(docker images -f "dangling=true" -q --no-trunc) | xargs docker rmi -f"
+      sh "\$(docker images -f "dangling=true" -q --no-trunc) | xargs docker rmi -f"
 
     stage 'checkout'
       checkout scm
