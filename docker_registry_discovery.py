@@ -1,3 +1,4 @@
+import sys
 
 f = open('config.yml', 'r')
 
@@ -9,4 +10,5 @@ for line in f.readlines():
     conf[splited[0]] = splited[1].strip()
 
 retVal = registryUri + "/" + conf['name'] + ":" + conf['version']
-print retVal.strip()
+# print retVal.strip()
+sys.stdout.write(retVal)
