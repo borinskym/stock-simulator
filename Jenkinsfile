@@ -82,7 +82,7 @@ node {
 
                         def docker_login = sh returnStdout: true, script: 'aws ecr get-login --region us-east-1'
                          sh docker_login
-                         print "URIIIII -> " + dockerImageUri
+                print "URIIIII -> " + dockerImageUri
                         def runCommand =  "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + dockerImageUri + "  -t ${AWS_REPO_URI}/k8s-deployer:latest"
                         sh runCommand
                     }
