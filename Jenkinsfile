@@ -41,9 +41,6 @@ node {
       }
 
     stage 'build'
-        node {
-            load "common.groovy"
-        }
         load 'common.groovy'
         //sh "./gradlew build"
 
