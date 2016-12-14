@@ -46,7 +46,7 @@ node {
       }
 
     stage 'build'
-        def ret = sh(script: 'cat config.yml', returnStdout: true)
+        def ret = sh(script: 'python docker_registry_disocery.py', returnStdout: true)
         println ret
         //sh "./gradlew build"
         //SERVICE_CONFIG = sh (
