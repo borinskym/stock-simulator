@@ -1,12 +1,13 @@
-import org.yaml.snakeyaml.Yaml
+//import org.yaml.snakeyaml.Yaml
 
 class common {
 
     static void readServiceConfiguration(String fileName){
         def text = new File(fileName).getText('UTF-8')
-        def yaml = new Yaml()
-        def load = yaml.load(text)
-        print(load)
+//        def yaml = new Yaml()
+//        def load = yaml.load(text)
+//        print(load)
+        print(text)
     }
 }
 return new common();
