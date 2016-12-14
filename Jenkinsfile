@@ -1,4 +1,3 @@
-import common
 use(common) {
     properties([
       // disableConcurrentBuilds(),
@@ -42,8 +41,8 @@ use(common) {
           }
 
         stage 'build'
+            load 'common.groovy'
             //sh "./gradlew build"
-            common.readServiceConfiguration('service/config.yml')
 
         stage 'dockerize'
             //sh "cd service && ./gradlew dockerize"
