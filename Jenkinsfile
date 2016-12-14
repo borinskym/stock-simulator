@@ -52,7 +52,7 @@ node {
             script: 'cat config.yml',
             returnStdout: true
         ).trim()
-        echo '${SERVICE_CONFIG}'
+        echo ${SERVICE_CONFIG}
 
     stage 'dockerize'
         //sh "cd service && ./gradlew dockerize"
