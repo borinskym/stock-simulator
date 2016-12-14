@@ -23,7 +23,7 @@ print "login"
 os.system("aws ecr get-login --region us-east-1")
 print "batch-delete-image"
 # os.system("aws ecr --region us-east-1 batch-delete-image --repository-name hello-world-java --image-ids imageTag=0.1.0")
-os.system("aws ecr --region us-east-1 batch-delete-image --repository-name" + conf['name']  + "--image-ids imageTag=" + conf['version'])
+os.system("aws ecr --region us-east-1 batch-delete-image --repository-name " + conf['name']  + " --image-ids imageTag=" + conf['version'])
 
 retVal = registryUri + "/" + conf['name'] + ":" + conf['version']
 
