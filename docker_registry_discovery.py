@@ -10,5 +10,5 @@ for line in f.readlines():
     conf[splited[0]] = splited[1].strip()
 
 retVal = registryUri + "/" + conf['name'] + ":" + conf['version']
-# print retVal.strip()
-sys.stdout.write(retVal)
+print retVal.strip() , # trailing comma
+# sys.stdout.write(retVal)
