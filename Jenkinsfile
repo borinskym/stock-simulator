@@ -21,9 +21,7 @@ node {
     stage 'clean'
       print '=====>'
       deleteDir()
-      print new docker.LocalDocker().greet()
-      def utils = new docker.LocalDocker()
-      utils.clean()
+      new docker.LocalDocker().clean()
 
     stage 'checkout'
       checkout scm
