@@ -9,8 +9,11 @@ properties([
 @Library('jenkinsSharedLib')
 import commons.Common
 
-@Library('dockerUtils')
+@Library('localDocker')
 import docker.LocalDocker
+
+@Library('awsDocker')
+import docker.AwsDocker
 
 node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
@@ -68,6 +71,10 @@ node {
                               accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
                     ]) {
-                        dockerImageUri = sh(script: 'python docker_registry_discovery.py ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY}', returnStdout: true)
+                        def awsDocker  = new docker.AwsDocker()
+                        awsDocker.login(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+                        awsDocker.push(common.getByKey('name'), common.getByKey('version'))
+                        awsDocker.run('k8s-deployer:latest')
+                            //dockerImageUri = sh(script: 'python docker_registry_discovery.py ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY}', returnStdout: true)
                     }
 }
