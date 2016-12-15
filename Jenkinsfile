@@ -58,7 +58,7 @@ node {
         sh "./gradlew build"
 
     stage 'dockerize'
-        sh "cd service && ./gradlew dockerize"
+        sh "cd service && ./gradlew dockerize -PimageName=" + common.getByKey('name') + ":" + common.getByKey('version')
 
     stage 'deploy to k8s'
         def dockerImageUri = ''
