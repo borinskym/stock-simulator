@@ -10,7 +10,7 @@ properties([
 import commons.Common
 
 @Library('dockerUtils')
-import docker.utils.Docker
+import docker.Docker
 
 node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
@@ -20,7 +20,7 @@ node {
         print env.BRANCH_NAME
       // start with an empty workspace
       deleteDir()
-      def utils = new docker.utils.Docker()
+      def utils = new docker.Docker()
       utils.clean()
 
       // delete images
