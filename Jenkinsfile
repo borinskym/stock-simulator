@@ -6,6 +6,9 @@ properties([
   [ $class: 'GitLabConnectionProperty', gitLabConnection: 'GitLab' ],
 ])
 
+@Library('jenkins-shared-lib')
+import commons.Common
+
 node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
 
