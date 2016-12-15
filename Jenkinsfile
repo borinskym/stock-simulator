@@ -60,7 +60,7 @@ node {
     stage 'dockerize'
         print "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
         sh "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
-        print sh "docker images"
+        def images = sh(script: 'docker images', returnStdout: true)
 
     stage 'deploy to k8s'
         def dockerImageUri = ''
