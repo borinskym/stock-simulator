@@ -26,9 +26,9 @@ node {
     stage 'checkout'
       checkout scm
       print 'reading from yml'
-      def content = sh returnStdout: true, script: 'cat config.yml'
-      print content + 'from cat'
-      def common = new commons.Common(content)
+      def fileContent = sh returnStdout: true, script: 'cat config.yml'
+      print fileContent + 'from cat'
+      def common = new commons.Common(fileContent)
       print common.getByKey('name')
 
     stage 'compile'
