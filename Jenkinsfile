@@ -6,7 +6,7 @@ properties([
   [ $class: 'GitLabConnectionProperty', gitLabConnection: 'GitLab' ],
 ])
 
-@Library('commons')
+@Library('jenkins-shared-lib')
 import commons.Common
 
 node {
