@@ -13,6 +13,11 @@ node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
 
     stage 'clean'
+        print 'reading from yml'
+        def content = sh returnStdout: true, script: 'cat config.yml'
+        def common = new commons.Common(content)
+        print common.getByKey('name')
+
         print '=====>'
         print env.BRANCH_NAME
       // start with an empty workspace
