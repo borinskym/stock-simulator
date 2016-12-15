@@ -1,10 +1,6 @@
 import os
 import sys
 
-
-# print sys.argv[1]
-# print sys.argv[2]
-
 print "reading config.yml"
 f = open('config.yml', 'r')
 
@@ -22,7 +18,6 @@ os.system("aws configure set aws_secret_access_key " + sys.argv[2])
 print "login"
 os.system("aws ecr get-login --region us-east-1")
 print "batch-delete-image"
-# os.system("aws ecr --region us-east-1 batch-delete-image --repository-name hello-world-java --image-ids imageTag=0.1.0")
 os.system("aws ecr --region us-east-1 batch-delete-image --repository-name " + conf['name']  + " --image-ids imageTag=" + conf['version'])
 
 retVal = registryUri + "/" + conf['name'] + ":" + conf['version']
@@ -32,21 +27,5 @@ print "retVal -> " + retVal
 print "push new version to registry"
 os.system("docker push " + retVal)
 
-#sys.stdout.write(retVal)
-
 print "run deployer"
 os.system("docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + retVal + " -t " + registryUri + "/k8s-deployer:latest")
-
-# import sys
-#
-# f = open('config.yml', 'r')
-#
-# registryUri = "911479539546.dkr.ecr.us-east-1.amazonaws.com" #hard coded for now
-#
-# conf = {}
-# for line in f.readlines():
-#     splited = line.split(':')
-#     conf[splited[0]] = splited[1].strip()
-#
-# retVal = registryUri + "/" + conf['name'] + ":" + conf['version']
-# sys.stdout.write(retVal)
