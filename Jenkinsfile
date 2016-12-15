@@ -20,7 +20,8 @@ node {
         print env.BRANCH_NAME
       // start with an empty workspace
       deleteDir()
-      new docker.utils.Docker().clean()
+      def utils = new docker.utils.Docker()
+      utils.clean()
 
       // delete images
       //def docker_dangling_imgs = sh returnStdout: true, script: 'docker images -f \"dangling=true\" -q --no-trunc'
