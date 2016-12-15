@@ -29,7 +29,7 @@ node {
       def fileContent = sh returnStdout: true, script: 'cat config.yml'
       print fileContent + 'from cat'
       def common = new commons.Common()
-      print common.getByKey('name')
+      print common.getByKey(fileContent, 'name')
 
     stage 'compile'
       // https://issues.jenkins-ci.org/browse/JENKINS-26100 super ugly workaround :(
