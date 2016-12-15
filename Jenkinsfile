@@ -27,6 +27,7 @@ node {
       checkout scm
       print 'reading from yml'
       def content = sh returnStdout: true, script: 'cat config.yml'
+      print content + 'from cat'
       def common = new commons.Common(content)
       print common.getByKey('name')
 
