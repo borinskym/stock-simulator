@@ -11,12 +11,12 @@ for line in f.readlines():
     splited = line.split(':')
     conf[splited[0]] = splited[1].strip()
 
-print "set aws_access_key_id" + sys.argv[1]
-os.system("aws configure set aws_access_key_id " + sys.argv[1])
-print "set aws_secret_access_key" + sys.argv[2]
-os.system("aws configure set aws_secret_access_key " + sys.argv[2])
-print "login"
-os.system("aws ecr get-login --region us-east-1")
+# print "set aws_access_key_id" + sys.argv[1]
+# os.system("aws configure set aws_access_key_id " + sys.argv[1])
+# print "set aws_secret_access_key" + sys.argv[2]
+# os.system("aws configure set aws_secret_access_key " + sys.argv[2])
+# print "login"
+# os.system("aws ecr get-login --region us-east-1")
 print "batch-delete-image"
 os.system("aws ecr --region us-east-1 batch-delete-image --repository-name " + conf['name']  + " --image-ids imageTag=" + conf['version'])
 

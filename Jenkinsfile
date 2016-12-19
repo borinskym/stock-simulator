@@ -72,15 +72,13 @@ node {
                               accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
                     ]) {
-                        def awsDocker  = new docker.AwsDocker()
-                        print "service name -> " + common.getByKey('name')
-                        print "service version -> " + common.getByKey('version')
-                        print "aws key -> " + AWS_ACCESS_KEY_ID
-                        print "aws secret -> " + AWS_SECRET_ACCESS_KEY
 
+                        def test = sh(script: 'docker run -v /var/run/docker.sock:/var/run/docker.sock 911479539546.dkr.ecr.us-east-1.amazonaws.com/jenkins_deploy_orchestrator:latest', returnStdout: true)
+                        print test
+                        //def awsDocker  = new docker.AwsDocker()
                         //awsDocker.login(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-                        print awsDocker.push(common.getByKey('name'), common.getByKey('version'), AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-                        sh "docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0"
+                        //print awsDocker.push(common.getByKey('name'), common.getByKey('version'), AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+                        //sh "docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0"
                         //awsDocker.run('k8s-deployer:latest')
                             //dockerImageUri = sh(script: 'python docker_registry_discovery.py ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY}', returnStdout: true)
                     }
