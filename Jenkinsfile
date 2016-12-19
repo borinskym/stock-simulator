@@ -80,6 +80,7 @@ node {
 
                         //awsDocker.login(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
                         print awsDocker.push(common.getByKey('name'), common.getByKey('version'), AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+                        sh "docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0"
                         //awsDocker.run('k8s-deployer:latest')
                             //dockerImageUri = sh(script: 'python docker_registry_discovery.py ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY}', returnStdout: true)
                     }
