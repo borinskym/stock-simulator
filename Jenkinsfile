@@ -71,9 +71,14 @@ node {
                               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
                     ]) {
                         def awsDocker  = new docker.AwsDocker()
+                        print "service name -> " + common.getByKey('name')
+                        print "service version -> " + common.getByKey('version')
+                        print "aws key -> " + AWS_ACCESS_KEY_ID
+                        print "aws secret -> " + AWS_SECRET_ACCESS_KEY
+
                         //awsDocker.login(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
                         print awsDocker.push(common.getByKey('name'), common.getByKey('version'), AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-                        awsDocker.run('k8s-deployer:latest')
+                        //awsDocker.run('k8s-deployer:latest')
                             //dockerImageUri = sh(script: 'python docker_registry_discovery.py ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY}', returnStdout: true)
                     }
 }
