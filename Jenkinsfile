@@ -1,5 +1,4 @@
 properties([
-  // disableConcurrentBuilds(),
   pipelineTriggers([]),
   buildDiscarder(
     logRotator(artifactDaysToKeepStr: '10', artifactNumToKeepStr: '10', daysToKeepStr: '10', numToKeepStr: '10')
@@ -7,24 +6,32 @@ properties([
   [ $class: 'GitLabConnectionProperty', gitLabConnection: 'GitLab' ],
 ])
 
-// https://jenkins.io/doc/pipeline/steps/
+@Library('jenkinsSharedLib')
+import commons.Common
+
+@Library('localDocker')
+import docker.LocalDocker
+
+@Library('awsDocker')
+import docker.AwsDocker
+
 node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
-    //static final def REGISRTY_SERVICE_URI = sh(script: 'python docker_registry_discovery.py', returnStdout: true)
 
     stage 'clean'
-        print '=====>'
-        print env.BRANCH_NAME
-      // start with an empty workspace
+      print '=====>'
       deleteDir()
-      // delete images
-      def docker_dangling_imgs = sh returnStdout: true, script: 'docker images -f \"dangling=true\" -q --no-trunc'
-      if (!docker_dangling_imgs.equals("")) {
-         sh "docker rmi -f " + docker_dangling_imgs
-      }
+      new docker.LocalDocker().clean()
 
     stage 'checkout'
       checkout scm
+
+    stage 'process configuration'
+      print 'reading from yml'
+      def fileContent = sh returnStdout: true, script: 'cat config.yml'
+      def common = new commons.Common()
+      common.loadAsYml(fileContent)
+      print common.getByKey('name')
 
     stage 'compile'
       // https://issues.jenkins-ci.org/browse/JENKINS-26100 super ugly workaround :(
@@ -51,27 +58,9 @@ node {
         sh "./gradlew build"
 
     stage 'dockerize'
-        sh "cd service && ./gradlew dockerize"
-
-    //stage 'AWS Access'
-        //timestamps {
-            //withCredentials([
-                //    [ $class: 'AmazonWebServicesCredentialsBinding',
-                    //  credentialsId: 'aws-registry-k8s',
-                      //accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                      //secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
-            //]) {
-                //sh "aws configure set aws_access_key_id AWS_ACCESS_KEY_ID"
-                //sh "aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY"
-                //def docker_login = sh returnStdout: true, script: 'aws ecr get-login --region us-east-1'
-                //sh docker_login
-		//sh "aws ecr --region us-east-1 batch-delete-image --repository-name hello-world-java --image-ids imageTag=0.1.0"
-            //}
-        //}
-
-    //stage 'push docker image'
-        //sh "docker push " + REGISRTY_SERVICE_URI
-
+        print "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
+        sh "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
+        def images = sh(script: 'docker images', returnStdout: true)
 
     stage 'deploy to k8s'
         def dockerImageUri = ''
@@ -81,6 +70,10 @@ node {
                               accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
                     ]) {
-                        dockerImageUri = sh(script: 'python docker_registry_discovery.py ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY}', returnStdout: true)
+                        def awsDocker  = new docker.AwsDocker()
+                        awsDocker.login(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+                        print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
+                        awsDocker.run('k8s-deployer:latest')
+                            //dockerImageUri = sh(script: 'python docker_registry_discovery.py ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY}', returnStdout: true)
                     }
 }
