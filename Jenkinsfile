@@ -63,6 +63,8 @@ node {
         def images = sh(script: 'docker images', returnStdout: true)
 
     stage 'deploy to k8s'
+        print env.AWS_ACCESS_KEY_ID
+        print env.AWS_SECRET_ACCESS_KEY
         def dockerImageUri = ''
         withCredentials([
                             [ $class: 'AmazonWebServicesCredentialsBinding',
