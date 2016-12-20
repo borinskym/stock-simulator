@@ -24,6 +24,9 @@ retVal = registryUri + "/" + conf['name'] # + ":" + conf['version']
 
 print "retVal -> " + retVal
 
+print "tag docker file"
+os.system("docker tag hello-world-java:0.1.0 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0")
+
 print "push new version to registry"
 os.system("docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0")
 
