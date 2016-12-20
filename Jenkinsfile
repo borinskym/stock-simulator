@@ -61,9 +61,9 @@ node {
         sh "./gradlew build"
 
     //stage 'dockerize'
-       // print "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
-        //sh "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
-        //def images = sh(script: 'docker images', returnStdout: true)
+        print "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
+        sh "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
+        def images = sh(script: 'docker images', returnStdout: true)
 
     stage 'AWS Access'
         timestamps {
