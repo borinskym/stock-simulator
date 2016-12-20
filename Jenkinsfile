@@ -64,7 +64,8 @@ node {
         //def images = sh(script: 'docker images', returnStdout: true)
 
     stage 'deploy to k8s'
-            sh(script: 'docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0', returnStdout: true)
+            def output = sh(script: 'docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0', returnStdout: true)
+            print output
          //def awsDocker  = new docker.AwsDocker()
          //print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
 }
