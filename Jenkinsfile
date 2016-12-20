@@ -63,6 +63,21 @@ node {
         //sh "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
         //def images = sh(script: 'docker images', returnStdout: true)
 
+    stage 'AWS Access'
+        timestamps {
+            withCredentials([
+                    [ $class: 'AmazonWebServicesCredentialsBinding',
+                      credentialsId: 'aws-registry-k8s',
+                      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
+            ]) {
+                sh "aws configure set aws_access_key_id AWS_ACCESS_KEY_ID"
+                sh "aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY"
+                def docker_login = sh returnStdout: true, script: 'aws ecr get-login --region us-east-1'
+                sh docker_login
+            }
+        }
+
     stage 'deploy to k8s'
             def output = sh(script: 'docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0', returnStdout: true)
             print output
