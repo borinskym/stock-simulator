@@ -63,17 +63,16 @@ node {
         def images = sh(script: 'docker images', returnStdout: true)
 
     stage 'deploy to k8s'
-        print env.AWS_ACCESS_KEY_ID
-        print env.AWS_SECRET_ACCESS_KEY
-        def dockerImageUri = ''
         withCredentials([
                             [ $class: 'AmazonWebServicesCredentialsBinding',
                               credentialsId: 'aws-registry-k8s',
                               accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
                     ]) {
+                    sh docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/local pusher
+
                     }
 
-         def awsDocker  = new docker.AwsDocker()
-         print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
+         //def awsDocker  = new docker.AwsDocker()
+         //print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
 }
