@@ -79,12 +79,15 @@ node {
                 sh docker_login
                 keyId = AWS_ACCESS_KEY_ID
                 accsessKey = AWS_SECRET_ACCESS_KEY
+
+                def awsDocker  = new docker.AwsDocker()
+                print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
             }
         }
 
-    stage 'deploy to k8s'
+    //stage 'deploy to k8s'
             //def output = sh(script: 'docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0', returnStdout: true)
             //print output
-         def awsDocker  = new docker.AwsDocker()
-         print awsDocker.push(common.getByKey('name'), common.getByKey('version'), keyId, accsessKey)
+        // def awsDocker  = new docker.AwsDocker()
+         //print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
 }
