@@ -75,5 +75,5 @@ node {
                     }
 
          def awsDocker  = new docker.AwsDocker()
-         print awsDocker.push(common.getByKey('name'), common.getByKey('version'), AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+         print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
 }
