@@ -17,6 +17,8 @@ import docker.AwsDocker
 
 node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
+    static final def keyId = ""
+    static final def accsessKey = ""
 
     stage 'clean'
         print 'eli--@@->'
@@ -75,6 +77,8 @@ node {
                 sh "aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY"
                 def docker_login = sh returnStdout: true, script: 'aws ecr get-login --region us-east-1'
                 sh docker_login
+                keyId = AWS_ACCESS_KEY_ID
+                accsessKey = AWS_SECRET_ACCESS_KEY
             }
         }
 
@@ -82,5 +86,5 @@ node {
             //def output = sh(script: 'docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0', returnStdout: true)
             //print output
          def awsDocker  = new docker.AwsDocker()
-         print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
+         print awsDocker.push(common.getByKey('name'), common.getByKey('version'), keyId, accsessKey)
 }
