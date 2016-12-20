@@ -9,6 +9,7 @@ RUN apk add --no-cache python && \
 
 #copy code
 COPY docker_registry_discovery.py /opt/app/
+COPY config.yml /opt/app/
 
 #define temp workdir
 WORKDIR /opt/app
