@@ -70,7 +70,7 @@ node {
                               accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
                     ]) {
-                    //sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/local pusher"
+                    sh(script: 'docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/local pusher', returnStdout: true)
 
                     }
 
