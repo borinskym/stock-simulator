@@ -79,7 +79,7 @@ node {
                 sh docker_login
                 //def awsDocker  = new docker.AwsDocker()
                 //print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
-                def push = sh returnStdout: true, script: 'docker run 911479539546.dkr.ecr.us-east-1.amazonaws.com/pusher:latest'
+                def push = sh returnStdout: true, script: 'docker run -v /var/run/docker.sock:/var/run/docker.sock docker run 911479539546.dkr.ecr.us-east-1.amazonaws.com/pusher:latest'
             }
         }
 }
