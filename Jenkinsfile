@@ -19,7 +19,7 @@ node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
 
     stage 'clean'
-        print 'eli--->'
+        print 'eli--@@->'
       print '=====>'
       deleteDir()
       new docker.LocalDocker().clean()
@@ -70,7 +70,7 @@ node {
                               accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                               secretKeyVariable: 'AWS_SECRET_ACCESS_KEY' ]
                     ]) {
-                    sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/local pusher"
+                    //sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -v $(pwd):/local pusher"
 
                     }
 
