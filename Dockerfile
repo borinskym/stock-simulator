@@ -14,5 +14,8 @@ COPY config.yml /opt/app/
 #define temp workdir
 WORKDIR /opt/app
 
+# install aws cli profile
+RUN pip install awscli --ignore-installed six
+
 # login to aws and run script
-CMD  python /opt/app/docker_registry_discovery.py
+CMD  aws configure set aws_access_key_id ${KEY_ID} && aws configure set aws_secret_access_key ${ACCESS_KEY} && $(aws ecr get-login --region us-east-1) && python /opt/app/docker_registry_discovery.py

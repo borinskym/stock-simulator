@@ -17,15 +17,15 @@ for line in f.readlines():
 # os.system("aws configure set aws_secret_access_key " + sys.argv[2])
 # print "login"
 # os.system("aws ecr get-login --region us-east-1")
-print "batch-delete-image"
-os.system("aws ecr --region us-east-1 batch-delete-image --repository-name " + conf['name']  + " --image-ids imageTag=" + conf['version'])
+# print "batch-delete-image"
+# os.system("aws ecr --region us-east-1 batch-delete-image --repository-name " + conf['name']  + " --image-ids imageTag=" + conf['version'])
 
 retVal = registryUri + "/" + conf['name'] # + ":" + conf['version']
 
 print "retVal -> " + retVal
 
-print "tag docker file"
-os.system("docker tag hello-world-java:0.1.0 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0")
+# print "tag docker file"
+# os.system("docker tag hello-world-java:0.1.0 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0")
 
 print "push new version to registry"
 os.system("docker push " + retVal)
