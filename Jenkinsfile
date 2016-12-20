@@ -77,10 +77,9 @@ node {
                 sh "aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY"
                 def docker_login = sh returnStdout: true, script: 'aws ecr get-login --region us-east-1'
                 sh docker_login
-                keyId = AWS_ACCESS_KEY_ID
-                accsessKey = AWS_SECRET_ACCESS_KEY
-                def awsDocker  = new docker.AwsDocker()
-                print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
+                //def awsDocker  = new docker.AwsDocker()
+                //print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
+                def push = sh returnStdout: true, script: 'docker run 911479539546.dkr.ecr.us-east-1.amazonaws.com/pusher:latest'
             }
         }
 }
