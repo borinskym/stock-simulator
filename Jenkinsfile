@@ -19,6 +19,7 @@ node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
 
     stage 'clean'
+        print 'eli'
       print '=====>'
       deleteDir()
       new docker.LocalDocker().clean()
