@@ -72,8 +72,8 @@ node {
                     ]) {
 
                         //sh(script: 'docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0', returnStdout: true)
-                        //def awsDocker  = new docker.AwsDocker()
-                        //print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
+                        def awsDocker  = new docker.AwsDocker()
+                        print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
                     }
 
          //def awsDocker  = new docker.AwsDocker()
