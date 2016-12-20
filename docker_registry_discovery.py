@@ -25,7 +25,7 @@ retVal = registryUri + "/" + conf['name'] # + ":" + conf['version']
 print "retVal -> " + retVal
 
 print "push new version to registry"
-os.system("docker push 911479539546.dkr.ecr.us-east-1.amazonaws.com/hello-world-java:0.1.0")
+os.system("docker push " + retVal)
 
 # print "run deployer"
 # os.system("docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + retVal + " -t " + registryUri + "/k8s-deployer:latest")

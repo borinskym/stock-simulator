@@ -1,4 +1,4 @@
-FROM docker:1.12.3
+FROM docker:1.11.2
 
 # install python
 RUN apk add --no-cache python && \
@@ -13,11 +13,11 @@ RUN aws configure set aws_access_key_id AKIAJUHGHBF4SEHXKLZA
  RUN aws configure set aws_secret_access_key pzHyzfkDiOLeFJVhwXjSxm4w0UNHjRQCGvencPzx
 
 #copy code
-COPY . /opt/app
+COPY docker_registry_discovery.py /opt/app/
 
 
 #define temp workdir
-WORKDIR /opt/app
+WORKDIR /local
 
 # login to aws and run script
 CMD  docker version && $(aws ecr get-login --region us-east-1) && python /opt/app/docker_registry_discovery.py
