@@ -18,6 +18,7 @@ node {
 
     stage 'clean'
       deleteDir()
+      print DOCKER_IMAGE_URI
 
     stage 'checkout'
       checkout scm
