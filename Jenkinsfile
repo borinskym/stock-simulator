@@ -7,7 +7,7 @@ properties([
 ])
 
 @Library('jenkinsSharedLib')
-import commons.Common
+import commons.ConfigParser
 
 @Library('awsDocker')
 import docker.AwsDocker
@@ -44,7 +44,7 @@ node {
 
     stage 'dockerize'
         def fileContent = sh returnStdout: true, script: 'cat config.yml'
-        DOCKER_IMAGE_URI = new commons.Common().getImageUri(fileContent)
+        DOCKER_IMAGE_URI = new commons.ConfigParser().getImageUri(fileContent)
         print DOCKER_IMAGE_URI
         sh "cd service && ./gradlew dockerize -PimageName=" + DOCKER_IMAGE_URI
 
