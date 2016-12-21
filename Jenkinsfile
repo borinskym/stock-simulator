@@ -13,12 +13,10 @@ import commons.Common
 import docker.AwsDocker
 
 node {
-    static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
-    static final def DOCKER_IMAGE_URI = ""
+    def DOCKER_IMAGE_URI = ""
 
     stage 'clean'
       deleteDir()
-      print DOCKER_IMAGE_URI
 
     stage 'checkout'
       checkout scm
@@ -45,7 +43,7 @@ node {
         sh "./gradlew build"
 
     stage 'dockerize'
-        DOCKER_IMAGE_URI = new commons.Common().getImageUri()
+        DOCKER_IMAGE_URI = new commons.Common().getImageUri(new File('config.yml').text)
         print DOCKER_IMAGE_URI
         sh "cd service && ./gradlew dockerize -PimageName=" + DOCKER_IMAGE_URI
 
