@@ -46,6 +46,7 @@ node {
 
     stage 'dockerize'
         DOCKER_IMAGE_URI = new commons.Common().getImageUri()
+        print DOCKER_IMAGE_URI
         sh "cd service && ./gradlew dockerize -PimageName=" + DOCKER_IMAGE_URI
 
     stage 'AWS Access'
