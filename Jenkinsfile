@@ -14,18 +14,13 @@ import docker.AwsDocker
 
 node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
-    static final def DOCKER_IMAGE_URI = ""
+    static final def DOCKER_IMAGE_URI = new commons.Common().getImageUri()
 
     stage 'clean'
       deleteDir()
 
     stage 'checkout'
       checkout scm
-
-    stage 'process configuration'
-      def fileContent = sh returnStdout: true, script: 'cat config.yml'
-      def common = new commons.Common()
-      common.loadAsYml(fileContent)
 
     stage 'compile'
       // https://issues.jenkins-ci.org/browse/JENKINS-26100 super ugly workaround :(
@@ -49,7 +44,7 @@ node {
         sh "./gradlew build"
 
     stage 'dockerize'
-        sh "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
+        sh "cd service && ./gradlew dockerize -PimageName=" + DOCKER_IMAGE_URI
 
     stage 'AWS Access'
         timestamps {
@@ -69,6 +64,5 @@ node {
 
          stage 'deploy to k8s'
             def awsDocker  = new docker.AwsDocker()
-            def dockerImageUri = AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
-            print awsDocker.run(dockerImageUri)
+            print awsDocker.run(DOCKER_IMAGE_URI)
 }
