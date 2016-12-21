@@ -1,5 +1,3 @@
-name: zvika
-version: 0.1.2
-image: 911479539546.dkr.ecr.us-east-1.amazonaws.com/zvika:0.1.2
-
+name: java-hello-java
+version: 0.1.1
 
