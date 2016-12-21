@@ -9,9 +9,6 @@ properties([
 @Library('jenkinsSharedLib')
 import commons.Common
 
-@Library('localDocker')
-import docker.LocalDocker
-
 @Library('awsDocker')
 import docker.AwsDocker
 
@@ -21,7 +18,6 @@ node {
 
     stage 'clean'
       deleteDir()
-      new docker.LocalDocker().clean()
 
     stage 'checkout'
       checkout scm
