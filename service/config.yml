@@ -1,5 +1,5 @@
-name: hello-world-java
-version: 0.1.0
-image: hello-world-java:0.1.0
+name: zvika
+version: 0.1.2
+image: 911479539546.dkr.ecr.us-east-1.amazonaws.com/zvika:0.1.2
 
 
