@@ -17,12 +17,8 @@ import docker.AwsDocker
 
 node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
-    static final def keyId = ""
-    static final def accsessKey = ""
 
     stage 'clean'
-        print 'eli--@@->'
-      print '=====>'
       deleteDir()
       new docker.LocalDocker().clean()
 
@@ -30,18 +26,13 @@ node {
       checkout scm
 
     stage 'process configuration'
-      print 'reading from yml'
       def fileContent = sh returnStdout: true, script: 'cat config.yml'
       def common = new commons.Common()
       common.loadAsYml(fileContent)
-      print common.getByKey('name')
 
     stage 'compile'
       // https://issues.jenkins-ci.org/browse/JENKINS-26100 super ugly workaround :(
       sh 'git rev-parse --short=8 HEAD > GIT_COMMIT'
-
-      // set version for builds done in Jenkins
-      // BUILD_TS is 'Build Timestamp' plugin additional configuration
       env.SERVICE_VERSION = env.BUILD_TS + '-' + env.BUILD_NUMBER + '-' + readFile('GIT_COMMIT').trim()
       if (env.BRANCH_NAME) { // when building a branch, set a more specific version name
         env.SERVICE_VERSION = env.SERVICE_VERSION + '-' + env.BRANCH_NAME.replaceAll('/', '-')
@@ -60,10 +51,8 @@ node {
     stage 'build'
         sh "./gradlew build"
 
-    //stage 'dockerize'
-        print "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
+    stage 'dockerize'
         sh "cd service && ./gradlew dockerize -PimageName=" + AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
-        def images = sh(script: 'docker images', returnStdout: true)
 
     stage 'AWS Access'
         timestamps {
@@ -77,8 +66,6 @@ node {
                 sh "aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY"
                 def docker_login = sh returnStdout: true, script: 'aws ecr get-login --region us-east-1'
                 sh docker_login
-                //def awsDocker  = new docker.AwsDocker()
-                //print awsDocker.push(common.getByKey('name'), common.getByKey('version'))
                 def push = sh returnStdout: true, script: 'docker run -v /var/run/docker.sock:/var/run/docker.sock -e KEY_ID=${AWS_ACCESS_KEY_ID} -e ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} 911479539546.dkr.ecr.us-east-1.amazonaws.com/pusher:latest'
             }
         }
