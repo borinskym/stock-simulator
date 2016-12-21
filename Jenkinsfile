@@ -43,7 +43,8 @@ node {
         sh "./gradlew build"
 
     stage 'dockerize'
-        DOCKER_IMAGE_URI = new commons.Common().getImageUri(new File('config.yml').text)
+        def fileContent = sh returnStdout: true, script: 'cat config.yml'
+        DOCKER_IMAGE_URI = new commons.Common().getImageUri(fileContent)
         print DOCKER_IMAGE_URI
         sh "cd service && ./gradlew dockerize -PimageName=" + DOCKER_IMAGE_URI
 
