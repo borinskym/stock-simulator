@@ -21,7 +21,7 @@ node {
     stage 'checkout'
       checkout scm
 
-    stage 'compile'
+    stage 'build'
       // https://issues.jenkins-ci.org/browse/JENKINS-26100 super ugly workaround :(
       sh 'git rev-parse --short=8 HEAD > GIT_COMMIT'
       env.SERVICE_VERSION = env.BUILD_TS + '-' + env.BUILD_NUMBER + '-' + readFile('GIT_COMMIT').trim()
@@ -31,7 +31,7 @@ node {
 
       timestamps {
         try {
-           "./gradlew clean assemble"
+           "./gradlew clean build"
         } catch (err) {
           step([$class: 'WarningsPublisher', consoleParsers: [[parserName: 'Java Compiler (javac)']]])
           gitlabCommitStatus { }
@@ -39,16 +39,13 @@ node {
         }
       }
 
-    stage 'build'
-        sh "./gradlew build"
-
-    stage 'dockerize'
+    stage 'package'
         def fileContent = sh returnStdout: true, script: 'cat config.yml'
         DOCKER_IMAGE_URI = new commons.ConfigParser().getImageUri(fileContent)
         print DOCKER_IMAGE_URI
         sh "cd service && ./gradlew dockerize -PimageName=" + DOCKER_IMAGE_URI
 
-    stage 'AWS Access'
+    stage 'ship'
         timestamps {
             withCredentials([
                     [ $class: 'AmazonWebServicesCredentialsBinding',
@@ -65,8 +62,5 @@ node {
                 def push = sh returnStdout: true, script: "docker run -v /var/run/docker.sock:/var/run/docker.sock -e KEY_ID=${AWS_ACCESS_KEY_ID} -e ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e IMAGE_NAME=${DOCKER_IMAGE_URI} 911479539546.dkr.ecr.us-east-1.amazonaws.com/pusher:0.2.0"
             }
         }
-
-         stage 'deploy to k8s'
-            def awsDocker  = new docker.AwsDocker()
-            print awsDocker.run(DOCKER_IMAGE_URI)
+        sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=${DOCKER_IMAGE_URI} -t $registryUri/k8s-deployer:latest"
 }
