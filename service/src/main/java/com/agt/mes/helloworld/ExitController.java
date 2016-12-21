@@ -5,12 +5,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1")
-public class GreeterController {
+public class ExitController {
 
-    @RequestMapping("/greeting")
-    public Greeting greeting() {
-        return new Greeting("Hello, Zvika");
+    @RequestMapping("/exit")
+    public void exit() {
+        System.exit(1);
     }
-
 }
-
