@@ -72,5 +72,5 @@ node {
 
          stage 'deploy to k8s'
             def dockerImageUri = AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
-            sh returnStdout: true, script: 'docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=" + dockerImageUri + "  -t ${AWS_REPO_URI}/k8s-deployer:latest'
+            sh returnStdout: true, script: 'docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=${dockerImageUri}  -t ${AWS_REPO_URI}/k8s-deployer:latest'
 }
