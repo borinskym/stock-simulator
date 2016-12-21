@@ -17,6 +17,7 @@ import docker.AwsDocker
 
 node {
     static final def AWS_REPO_URI = "911479539546.dkr.ecr.us-east-1.amazonaws.com"
+    static final def DOCKER_IMAGE_URI = ""
 
     stage 'clean'
       deleteDir()
@@ -71,6 +72,6 @@ node {
         }
 
          stage 'deploy to k8s'
-            def dockerImageUri = AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
-            sh returnStdout: true, script: 'docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=${dockerImageUri}  -t ${AWS_REPO_URI}/k8s-deployer:latest'
+            def DOCKER_IMAGE_URI = AWS_REPO_URI + "/" + common.getByKey('name') + ":" + common.getByKey('version')
+            sh returnStdout: true, script: 'docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=${DOCKER_IMAGE_URI}  -t ${AWS_REPO_URI}/k8s-deployer:latest'
 }
