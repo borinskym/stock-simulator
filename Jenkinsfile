@@ -59,7 +59,7 @@ node {
                 sh docker_login
                 print "${DOCKER_IMAGE_URI}"
                 print '${DOCKER_IMAGE_URI}'
-                def push = sh returnStdout: true, script: "docker run -v /var/run/docker.sock:/var/run/docker.sock -e KEY_ID=${AWS_ACCESS_KEY_ID} -e ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e IMAGE_NAME=${DOCKER_IMAGE_URI} 911479539546.dkr.ecr.us-east-1.amazonaws.com/pusher:0.2.0"
+                def push = sh returnStdout: true, script: "docker run -v /var/run/docker.sock:/var/run/docker.sock -e KEY_ID=${AWS_ACCESS_KEY_ID} -e ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e IMAGE_NAME=${DOCKER_IMAGE_URI} 911479539546.dkr.ecr.us-east-1.amazonaws.com/pusher:latest"
             }
         }
         sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=${DOCKER_IMAGE_URI} -t 911479539546.dkr.ecr.us-east-1.amazonaws.com/k8s-deployer:latest"
