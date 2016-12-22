@@ -13,7 +13,7 @@ import commons.ConfigParser
 import docker.AwsDocker
 
 node {
-    static def DOCKER_IMAGE_URI = ""
+    def DOCKER_IMAGE_URI = ""
 
     stage 'clean'
       deleteDir()
@@ -28,22 +28,15 @@ node {
       if (env.BRANCH_NAME) { // when building a branch, set a more specific version name
         env.SERVICE_VERSION = env.SERVICE_VERSION + '-' + env.BRANCH_NAME.replaceAll('/', '-')
       }
-
-      timestamps {
-        try {
-           "./gradlew clean build"
-        } catch (err) {
-          step([$class: 'WarningsPublisher', consoleParsers: [[parserName: 'Java Compiler (javac)']]])
-          gitlabCommitStatus { }
-          throw err
-        }
-      }
+      sh './gradlew clean build'
 
     stage 'package'
         def fileContent = sh returnStdout: true, script: 'cat config.yml'
         DOCKER_IMAGE_URI = new commons.ConfigParser().getImageUri(fileContent)
         print DOCKER_IMAGE_URI
-        sh "cd service && ./gradlew dockerize -PimageName=" + DOCKER_IMAGE_URI
+        dir("service"){
+            sh "./gradlew dockerize -PimageName=${DOCKER_IMAGE_URI}"
+        }
 
     stage 'ship'
         timestamps {
@@ -57,7 +50,7 @@ node {
                 sh "aws configure set aws_secret_access_key AWS_SECRET_ACCESS_KEY"
                 def docker_login = sh returnStdout: true, script: 'aws ecr get-login --region us-east-1'
                 sh docker_login
-                sh returnStdout: true, script: "docker run -v /var/run/docker.sock:/var/run/docker.sock -e KEY_ID=${AWS_ACCESS_KEY_ID} -e ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e IMAGE_NAME=${DOCKER_IMAGE_URI} 911479539546.dkr.ecr.us-east-1.amazonaws.com/pusher:0.2.0"
+                sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e KEY_ID=${AWS_ACCESS_KEY_ID} -e ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e IMAGE_NAME=${DOCKER_IMAGE_URI} 911479539546.dkr.ecr.us-east-1.amazonaws.com/pusher:latest"
             }
         }
         sh "docker run -v /var/run/docker.sock:/var/run/docker.sock -e IMAGE_NAME=${DOCKER_IMAGE_URI} -t 911479539546.dkr.ecr.us-east-1.amazonaws.com/k8s-deployer:latest"
