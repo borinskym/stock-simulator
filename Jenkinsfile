@@ -44,6 +44,7 @@ node {
         DOCKER_IMAGE_URI = new commons.ConfigParser().getImageUri(fileContent)
         print DOCKER_IMAGE_URI
         dir("service"){
+            sh "pwd"
             sh "./gradlew dockerize -PimageName=${DOCKER_IMAGE_URI}"
         }
 
