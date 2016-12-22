@@ -28,16 +28,7 @@ node {
       if (env.BRANCH_NAME) { // when building a branch, set a more specific version name
         env.SERVICE_VERSION = env.SERVICE_VERSION + '-' + env.BRANCH_NAME.replaceAll('/', '-')
       }
-
-      timestamps {
-        try {
-           "./gradlew clean build"
-        } catch (err) {
-          step([$class: 'WarningsPublisher', consoleParsers: [[parserName: 'Java Compiler (javac)']]])
-          gitlabCommitStatus { }
-          throw err
-        }
-      }
+      sh './gradlew clean build'
 
     stage 'package'
         def fileContent = sh returnStdout: true, script: 'cat config.yml'
