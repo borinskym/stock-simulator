@@ -43,8 +43,7 @@ node {
         def fileContent = sh returnStdout: true, script: 'cat config.yml'
         DOCKER_IMAGE_URI = new commons.ConfigParser().getImageUri(fileContent)
         print DOCKER_IMAGE_URI
-        sh "cd service"
-        sh "./gradlew dockerize -PimageName=${DOCKER_IMAGE_URI}"
+        sh returnStdout: true, script: 'cd service &&  ./gradlew dockerize -PimageName=${DOCKER_IMAGE_URI}'
 
     stage 'ship'
         timestamps {
