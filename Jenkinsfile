@@ -13,7 +13,7 @@ import commons.ConfigParser
 import docker.AwsDocker
 
 node {
-    static def DOCKER_IMAGE_URI = ""
+    def DOCKER_IMAGE_URI = ""
 
     stage 'clean'
       deleteDir()
