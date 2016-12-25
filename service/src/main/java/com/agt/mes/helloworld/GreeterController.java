@@ -9,7 +9,7 @@ public class GreeterController {
 
     @RequestMapping("/greeting")
     public Greeting greeting() {
-        return new Greeting("hello Ashley!!!!");
+        return new Greeting("Hello Demo!!!");
     }
 
 }
