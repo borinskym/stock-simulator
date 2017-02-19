@@ -24,7 +24,7 @@ class AppDriver {
         greeting = response.data
     }
 
-    boolean retrievedGreetingIs(String greeting) {
-        this.greeting.greeting == greeting
+    void retrievedGreetingIs(String greeting) {
+        assert this.greeting.greeting == greeting
     }
 }
