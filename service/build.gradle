@@ -50,6 +50,10 @@ dependencies {
 
 }
 
+test {
+    exclude "ct/**/*"
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '2.13'
 }
