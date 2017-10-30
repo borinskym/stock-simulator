@@ -1,0 +1,22 @@
+pipeline:
+  build:
+    image: openjdk:8
+    commands:
+      - ./gradlew clean build
+
+  deploy:
+    image: docker.heed-dev.io/drone-k8s-deploy
+    pull: true
+    target: kops:int
+    secrets:
+      - source: aws_dev_access_key_id
+        target: aws_access_key_id
+      - source: aws_dev_secret_key
+        target: aws_secret_access_key
+      - source: git_token
+        target: git_token
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    when:
+      event: push
+      branch: develop
