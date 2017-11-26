@@ -81,7 +81,4 @@ whitesource {
 
 build.finalizedBy "updateWhitesource"
 
-test {
-    exclude "ct/**/*"
-}
 
