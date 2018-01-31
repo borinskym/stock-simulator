@@ -1,4 +1,8 @@
 pipeline:
+  static_analysis:
+    image: docker.heed-dev.io/java-ffmpeg-base-docker:2
+    commands:
+      - ./gradlew findbugsMain
   build:
     image: openjdk:8
     commands:
