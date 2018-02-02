@@ -73,6 +73,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.cloud:spring-cloud-starter-sleuth:${deps.sleuthVersion}"
     compile "org.springframework.cloud:spring-cloud-starter-vault-config:1.1.0.RELEASE"
+    compile 'io.sentry:sentry-spring:1.6.5'
 
     // Java test
     testCompile 'org.hamcrest:hamcrest-all:1.3'
