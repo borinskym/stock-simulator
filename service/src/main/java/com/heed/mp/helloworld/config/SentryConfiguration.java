@@ -22,7 +22,10 @@ public class SentryConfiguration {
     @PostConstruct
     public void init() {
         if(!dsn.isEmpty()) {
-            Sentry.init(dsn + "?servername=" + serverName() + "&tags=env:int,lang:java&mdctags=X-B3-TraceId");
+            Sentry.init(dsn +
+                    "?servername=" + serverName() +
+                    "&environment=" + env() +
+                    "&tags=lang:java&mdctags=X-B3-TraceId");
         }
     }
 
@@ -34,6 +37,10 @@ public class SentryConfiguration {
             return matcher.group(1);
         }
         return hostname;
+    }
+
+    private String env() {
+        return System.getenv("MY_ENV");
     }
 
     @Bean
