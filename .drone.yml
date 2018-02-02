@@ -1,13 +1,14 @@
 pipeline:
   static-analysis:
+    group: build
     image: openjdk:8
     commands:
       - ./gradlew findbugsMain
 
   build:
+    group: build
     image: openjdk:8
     commands:
-      - ./gradlew findbugsMain
       - ./gradlew clean build
 
   request-deploy:
