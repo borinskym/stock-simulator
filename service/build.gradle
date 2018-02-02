@@ -21,18 +21,16 @@ apply plugin: 'groovy'
 apply plugin: 'application'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'whitesource'
+apply plugin: 'findbugs'
 
+findbugs{
+    findbugsTest.enabled = false
+    sourceSets = [sourceSets.main]
+}
 
 jar {
     baseName = 'hello-world-java'
     version = '0.1.0'
-    /*manifest {
-        attributes 'Main-Class': 'com.heed.mp.helloworld.Application'
-    }
-
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }*/
 }
 
 bootRepackage {
@@ -87,8 +85,6 @@ dependencies {
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 
 }
-
-
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.2'
