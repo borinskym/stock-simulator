@@ -1,4 +1,4 @@
-package com.agt.mes.helloworld;
+package com.heed.mp.helloworld;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

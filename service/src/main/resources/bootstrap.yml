@@ -1,0 +1,20 @@
+spring:
+    profiles:
+        active: local
+    application:
+        name: job-dispatcher-service
+    cloud:
+        vault:
+            authentication: TOKEN
+            token: myroot
+            scheme: https
+            uri: http://localhost:8200
+            host: localhost
+            port: 80
+            generic:
+              enabled: true
+              backend: secret
+              profile-separator: '/'
+              default-context: application
+              application-name: job-dispatcher-service
+            fail-fast: true

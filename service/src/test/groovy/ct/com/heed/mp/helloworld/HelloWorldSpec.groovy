@@ -1,4 +1,4 @@
-package ct.com.agt.mes.helloworld
+package ct.com.heed.mp.helloworld
 
 import spock.lang.Shared
 import spock.lang.Specification
@@ -14,7 +14,7 @@ class HelloWorldSpec extends Specification {
 
     def "should retrieve greeting"() {
         when:
-        app.fetchGreeting()
+        app.isGreeting()
 
         then:
         app.retrievedGreetingIs('Hello World!')

@@ -1,0 +1,10 @@
+version: '2'
+services:
+  vault-local-handler:
+    image: 911479539546.dkr.ecr.us-east-1.amazonaws.com/vault-local-dev:latest
+    environment:
+      VAULT_ADDR_SOURCE: https://vault.heed-dev.io/
+      VAULT_TOKEN_SOURCE: ${VAULT_TOKEN}
+      SECRET_NAME: secret/job-dispatcher-service/local
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

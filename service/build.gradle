@@ -1,30 +1,45 @@
 buildscript {
     ext.deps = [
-            springBootVersion: "<hard code latest version here>",
-            log4jVersion     : "<hard code latest version here>",
+            springBootVersion: "1.5.9.RELEASE",
+            log4jVersion     : "2.6.2",
+            lombockVersion   : "1.16.4",
+            gsonVersion      : "2.7",
+            sleuthVersion    : "1.3.0.RELEASE"
     ]
     repositories {
         mavenCentral()
-        maven { url "http://om-artifactory.mm.local:8081//artifactory/libs-develop-local" }
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:<hard code latest version here>")
-        classpath group: 'org.whitesource', name: 'whitesource-gradle-plugin', version: '<hard code latest version here>'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE'
+        classpath 'org.whitesource:whitesource-gradle-plugin:0.7'
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
 apply plugin: 'groovy'
 apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
 apply plugin: 'whitesource'
 
 
 jar {
     baseName = 'hello-world-java'
-    version =  '0.1.0'
+    version = '0.1.0'
+    /*manifest {
+        attributes 'Main-Class': 'com.heed.mp.helloworld.Application'
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }*/
 }
+
+bootRepackage {
+    mainClass = 'com.heed.mp.helloworld.Application'
+}
+
+mainClassName = 'com.heed.mp.helloworld.Application'
 
 repositories {
     mavenCentral()
@@ -34,6 +49,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
+    // Logs
     configurations {
         all*.exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
         all*.exclude group: "ch.qos.logback"
@@ -48,28 +64,30 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-slf4j-impl:${deps.log4jVersion}" // send all slf4j events to log4j 2.x
 
     // General
-    compileOnly "org.projectlombok:lombok:<hard code latest version here>"
-    compile "com.google.code.gson:gson:<hard code latest version here>"
+    compileOnly "org.projectlombok:lombok:${deps.lombockVersion}"
+    compile "com.google.code.gson:gson:${deps.gsonVersion}"
 
     // Spring
     compile("org.springframework.boot:spring-boot-starter-web") {
         exclude module: "spring-boot-starter-tomcat"
     }
-    compile("org.springframework.boot:spring-boot-starter-jetty")
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    compile 'org.springframework.cloud:spring-cloud-starter-sleuth:<hard code latest version here>'
+    compile "org.springframework.boot:spring-boot-starter-jetty"
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.cloud:spring-cloud-starter-sleuth:${deps.sleuthVersion}"
+    compile "org.springframework.cloud:spring-cloud-starter-vault-config:1.1.0.RELEASE"
 
-
-    testCompile 'org.hamcrest:hamcrest-all:<hard code latest version here>'
-    testCompile 'org.mockito:mockito-core:<hard code latest version here>'
+    // Java test
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+    testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile 'junit:junit'
 
     // Groovy test
-    testCompile 'org.codehaus.groovy:groovy-all:<hard code latest version here>'
-    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:<hard code latest version here>'
-    testCompile 'org.spockframework:spock-core:<hard code latest version here>'
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.7'
+    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 
 }
+
 
 
 task wrapper(type: Wrapper) {
