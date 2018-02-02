@@ -25,6 +25,7 @@ public class SentryConfiguration {
             Sentry.init(dsn +
                     "?servername=" + serverName() +
                     "&environment=" + env() +
+                    "&stacktrace.app.packages=com.heed" +
                     "&tags=lang:java&mdctags=X-B3-TraceId");
         }
     }
