@@ -53,7 +53,7 @@ public class SentryConfiguration {
         return new SentryExceptionResolver() {
             @Override
             public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-                Sentry.getContext().addTag("traceId", MDC.get("X-B3-TraceId"));
+                Sentry.getContext().addTag("trace_id", MDC.get("X-B3-TraceId"));
                 return super.resolveException(request, response, handler, ex);
             }
         };

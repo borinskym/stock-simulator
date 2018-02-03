@@ -16,7 +16,7 @@ public class ErrorController {
 
     @GetMapping("/error")
     public void error() {
-        throw new IllegalArgumentException(MDC.getCopyOfContextMap().toString());
+        throw new IllegalArgumentException("I'm just another error");
     }
 
 }
