@@ -3,11 +3,13 @@ pipeline:
     image: openjdk:8
     commands:
       - ./gradlew findbugsMain
+    secrets: [ maven_username, maven_password ]
 
   build:
     image: openjdk:8
     commands:
       - ./gradlew clean build
+    secrets: [ maven_username, maven_password ]
 
   request-deploy:
     image: docker.heed-dev.io/drone-k8s-deploy
