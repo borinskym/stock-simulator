@@ -15,6 +15,11 @@ buildscript {
     }
 }
 
+ext.maven = [
+        username: project.hasProperty("maven_username") ? project.property("maven_username") : System.getenv("MAVEN_USERNAME"),
+        password: project.hasProperty("maven_password") ? project.property("maven_password") : System.getenv("MAVEN_PASSWORD")
+]
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'groovy'
@@ -41,6 +46,14 @@ mainClassName = 'com.heed.mp.helloworld.Application'
 
 repositories {
     mavenCentral()
+
+    maven {
+        credentials {
+            username maven.username
+            password maven.password
+        }
+        url "https://nexus.heed-dev.io/repository/heed-maven-release/"
+    }
 }
 
 sourceCompatibility = 1.8
@@ -60,6 +73,8 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-web:${deps.log4jVersion}"
     compile "org.apache.logging.log4j:log4j-jcl:${deps.log4jVersion}"
     compile "org.apache.logging.log4j:log4j-slf4j-impl:${deps.log4jVersion}" // send all slf4j events to log4j 2.x
+
+    compile "com.heed:heed-java-common:0.1.7"
 
     // General
     compileOnly "org.projectlombok:lombok:${deps.lombockVersion}"

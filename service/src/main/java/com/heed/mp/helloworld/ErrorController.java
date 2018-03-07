@@ -16,7 +16,7 @@ public class ErrorController {
 
     @GetMapping("/error")
     public void error() {
-        throw new IllegalArgumentException("I'm just another error");
+        throw new RuntimeException("I'm just another error for demo");
     }
 
 }
