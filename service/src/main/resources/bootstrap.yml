@@ -1,8 +1,6 @@
 spring:
     profiles:
         active: local
-    application:
-        name: job-dispatcher-service
     cloud:
         vault:
             authentication: TOKEN
