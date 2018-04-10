@@ -28,7 +28,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'whitesource'
 apply plugin: 'findbugs'
 
-findbugs{
+findbugs {
     findbugsTest.enabled = false
     sourceSets = [sourceSets.main]
 }
@@ -65,7 +65,8 @@ dependencies {
         all*.exclude group: "ch.qos.logback"
         all*.exclude group: "org.slf4j", module: "log4j-over-slf4j" // allow using log4j 2.x
         all*.exclude group: "org.slf4j", module: "slf4j-simple"     // log4j is the configured backend
-        testCompile.exclude group: 'org.springframework.cloud', module: "spring-cloud-starter-vault-config" //exclude vault for tests
+        testCompile.exclude group: 'org.springframework.cloud', module: "spring-cloud-starter-vault-config"
+        //exclude vault for tests
     }
     compile "org.springframework.boot:spring-boot-starter-log4j2:${deps.springBootVersion}"
     compile "org.apache.logging.log4j:log4j-api:${deps.log4jVersion}"
