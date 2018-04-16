@@ -2,7 +2,7 @@ buildscript {
     ext.deps = [
             springBootVersion: "1.5.9.RELEASE",
             log4jVersion     : "2.6.2",
-            lombockVersion   : "1.16.4",
+            lombockVersion   : "1.16.20",
             gsonVersion      : "2.7",
             sleuthVersion    : "1.3.0.RELEASE"
     ]
@@ -103,8 +103,15 @@ dependencies {
 
 }
 
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed", "standardOut", "standardError"
+    }
+}
+
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.2'
+    gradleVersion = '4.4'
 }
 
 whitesource {
