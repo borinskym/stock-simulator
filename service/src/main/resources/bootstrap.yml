@@ -1,6 +1,8 @@
 spring:
     profiles:
         active: local
+    application:
+        name: k8s-hello-world-java
     cloud:
         vault:
             authentication: TOKEN
@@ -14,5 +16,5 @@ spring:
               backend: secret
               profile-separator: '/'
               default-context: application
-              application-name: job-dispatcher-service
+              application-name: k8s-hello-world-java
             fail-fast: true
