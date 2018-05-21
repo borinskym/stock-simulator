@@ -4,7 +4,8 @@ buildscript {
             log4jVersion     : "2.6.2",
             lombockVersion   : "1.16.20",
             gsonVersion      : "2.7",
-            sleuthVersion    : "1.3.0.RELEASE"
+            sleuthVersion    : "1.3.0.RELEASE",
+            zipkinSleuthVersion : "1.3.0.RELEASE"
     ]
     repositories {
         mavenCentral()
@@ -88,6 +89,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-jetty"
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.cloud:spring-cloud-starter-sleuth:${deps.sleuthVersion}"
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: "${deps.zipkinSleuthVersion}"
     compile "org.springframework.cloud:spring-cloud-starter-vault-config:1.1.0.RELEASE"
     compile 'io.sentry:sentry-spring:1.6.5'
 
