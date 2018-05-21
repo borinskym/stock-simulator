@@ -74,7 +74,7 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-jcl:${deps.log4jVersion}"
     compile "org.apache.logging.log4j:log4j-slf4j-impl:${deps.log4jVersion}" // send all slf4j events to log4j 2.x
 
-    compile "com.heed:heed-java-common:0.2.0"
+    compile "com.heed:heed-java-common:0.2.6"
 
     // General
     compileOnly "org.projectlombok:lombok:${deps.lombockVersion}"
