@@ -19,6 +19,6 @@ class AppDriver {
     }
 
     void retrievedGreetingIs(String greeting) {
-        assert false
+        assert this.receivedGreeting.greeting == greeting
     }
 }
