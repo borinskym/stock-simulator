@@ -3,8 +3,7 @@ package test.com.heed.mp.live.event.logger;
 import com.heed.mp.live.event.logger.InMemoryLiveDataRepository;
 import com.heed.mp.live.event.logger.LiveDataRepository;
 import com.heed.mp.live.event.logger.common.TimeConversion;
-import com.heed.mp.live.event.logger.entities.Score;
-import com.heed.mp.live.event.logger.entities.ScoreDetails;
+import com.heed.mp.live.event.logger.entities.internal.ScoreDetails;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,30 +14,31 @@ import static org.hamcrest.core.Is.is;
 
 public class InMemoryLiveDataRepositoryTest {
 
-    private static LiveDataRepository repository = new InMemoryLiveDataRepository();
     private static String eventId = "eventId-1234";
-    private static final long scoreTimestamp = TimeConversion.toTimestamp(new DateTime());
-    private static final ScoreDetails score = ScoreDetails.builder()
-            .timestamp(scoreTimestamp)
-            .eventId(eventId)
-            .score(Score.builder().awayScore(1).homeScore(0).build())
-            .build();
+    private static LiveDataRepository repository;
+    private DateTime now;
 
     @Before
     public void setup(){
+        now = new DateTime();;
         repository = new InMemoryLiveDataRepository();
+    }
+
+    @Test(expected = InMemoryLiveDataRepository.EventNotFound.class)
+    public void shouldFailIfEventNotFound(){
+        repository.get("someEvent", 0L);
     }
 
     @Test
     public void shouldSaveScore(){
+        ScoreDetails score = scoreAt(now);
         repository.save(score);
-        List<ScoreDetails> scores = repository.get(eventId, scoreTimestamp + 1000L);
+        List<ScoreDetails> scores = repository.get(eventId, TimeConversion.toTimestamp(now.plusSeconds(1)));
         assertThat(scores.get(0), is(score));
     }
 
     @Test
     public void shouldReturnScoresAccordingToTimestamp(){
-        DateTime now  = new DateTime();
         repository.save(scoreAt(now));
         repository.save(scoreAt(now.plusSeconds(1)));
         repository.save(scoreAt(now.plusSeconds(4)));

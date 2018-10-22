@@ -1,6 +1,7 @@
 package ct.com.heed.mp.live.event.logger
 
 import com.heed.mp.live.event.logger.Application
+import ct.com.heed.mp.live.event.logger.support.ScoresApi
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
 import org.springframework.http.HttpStatus
@@ -18,7 +19,7 @@ class AppDriver {
         Application.close();
     }
 
-    def scores(String eventId, Long upto = null) {
+    ScoresApi scores(String eventId, Long upto = 0L) {
         def response = client.get(
                 [path : "/v1/events/${eventId}/scores",
                  query: ['upto': upto]])

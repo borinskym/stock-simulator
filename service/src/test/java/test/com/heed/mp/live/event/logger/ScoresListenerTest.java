@@ -2,10 +2,9 @@ package test.com.heed.mp.live.event.logger;
 
 import com.heed.mp.live.event.logger.LiveDataRepository;
 import com.heed.mp.live.event.logger.ScoresListener;
-import com.heed.mp.live.event.logger.entities.Score;
-import com.heed.mp.live.event.logger.entities.ScoreDetails;
+import com.heed.mp.live.event.logger.entities.internal.Score;
+import com.heed.mp.live.event.logger.entities.internal.ScoreDetails;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 

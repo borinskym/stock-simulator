@@ -34,6 +34,6 @@ class TestUtils {
     }
 
     static Long after(Long timestamp, Integer seconds = null) {
-        toTimestamp(toDateTime(timestamp).minusSeconds(seconds))
+        toTimestamp(toDateTime(timestamp).plusSeconds(seconds))
     }
 }

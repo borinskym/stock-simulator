@@ -1,6 +1,8 @@
 package ct.com.heed.mp.live.event.logger
 
 import ct.com.heed.mp.live.event.logger.support.RabbitDriver
+import ct.com.heed.mp.live.event.logger.support.ScoreDetailsApi
+import ct.com.heed.mp.live.event.logger.support.ScoresApi
 import ct.com.heed.mp.live.event.logger.support.TestUtils
 import groovy.json.JsonOutput
 import spock.lang.Shared
@@ -39,17 +41,22 @@ class LiveEventLoggerSpec extends Specification {
     def "should retrieve scores given event id according to timestamp"() {
         given:
         def now = TestUtils.now()
-        rabbitDriver.sendTrigger(scoreAt(now), "soccer.goal.sologoal")
+        def score = scoreAt(now)
+        def requestTime = TestUtils.after(now, 5)
+        rabbitDriver.sendTrigger(score, "soccer.goal.sologoal")
 
         when:
-        def x = 1 + 2
-//        def scores = app.scores(soccerMatchId, TestUtils.after(now, 1))
+        waitForTrigger()
+        ScoresApi scoresSoFar = app.scores(soccerMatchId, requestTime)
 
         then:
-        TimeUnit.SECONDS.sleep(10)
-        assert 1 != 2
-//        assert scores != null
+        assert scoresSoFar != null
+        assert scoresSoFar.eventId == soccerMatchId
+        assert scoresSoFar.timestamp == requestTime
+    }
 
+    void waitForTrigger() {
+        TimeUnit.SECONDS.sleep(2)
     }
 
     String scoreAt(Long date) {

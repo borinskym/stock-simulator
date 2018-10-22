@@ -1,4 +1,4 @@
-package com.heed.mp.live.event.logger.entities;
+package com.heed.mp.live.event.logger.entities.internal;
 
 import lombok.Builder;
 import lombok.Data;

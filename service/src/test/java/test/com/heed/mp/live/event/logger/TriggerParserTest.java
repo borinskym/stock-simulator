@@ -1,7 +1,7 @@
 package test.com.heed.mp.live.event.logger;
 
 import com.heed.mp.live.event.logger.TriggerParser;
-import com.heed.mp.live.event.logger.entities.ScoreDetails;
+import com.heed.mp.live.event.logger.entities.internal.ScoreDetails;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

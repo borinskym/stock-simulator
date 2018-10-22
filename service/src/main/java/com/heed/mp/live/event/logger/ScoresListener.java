@@ -1,6 +1,6 @@
 package com.heed.mp.live.event.logger;
 
-import com.heed.mp.live.event.logger.entities.ScoreDetails;
+import com.heed.mp.live.event.logger.entities.internal.ScoreDetails;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;

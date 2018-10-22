@@ -5,8 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.heed.mp.live.event.logger.common.JsonUtils;
 import com.heed.mp.live.event.logger.common.TimeConversion;
-import com.heed.mp.live.event.logger.entities.Score;
-import com.heed.mp.live.event.logger.entities.ScoreDetails;
+import com.heed.mp.live.event.logger.entities.internal.Score;
+import com.heed.mp.live.event.logger.entities.internal.ScoreDetails;
 
 import java.util.function.Function;
 
