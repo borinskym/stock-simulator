@@ -22,16 +22,15 @@ public class TriggerParser {
     }
 
     private Long parseDate(JsonObject raw) {
-        String ifPresent = getIfPresent(raw, "originalTrigger.header.eventTime", JsonElement::getAsString);
-        return TimeConversion.toTimestamp(ifPresent);
+        return TimeConversion.toTimestamp(getIfPresent(raw,
+                "originalTrigger.header.eventTime",
+                JsonElement::getAsString));
     }
 
     private Score parseScores(JsonObject raw) {
-        Integer away = getIfPresent(raw, "originalTrigger.body.awayScore", JsonElement::getAsInt);
-        Integer home = getIfPresent(raw, "originalTrigger.body.homeScore", JsonElement::getAsInt);
         return Score.builder()
-                .awayScore(away)
-                .homeScore(home)
+                .awayScore(getIfPresent(raw, "originalTrigger.body.awayScore", JsonElement::getAsInt))
+                .homeScore(getIfPresent(raw, "originalTrigger.body.homeScore", JsonElement::getAsInt))
                 .build();
     }
 
