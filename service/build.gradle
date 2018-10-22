@@ -1,7 +1,7 @@
 buildscript {
     ext.deps = [
             springBootVersion: "1.5.9.RELEASE",
-            log4jVersion     : "2.6.2",
+            log4jVersion     : "2.10.0",
             lombockVersion   : "1.16.20",
             gsonVersion      : "2.7"
     ]
@@ -19,11 +19,12 @@ ext.maven = [
         password: project.hasProperty("maven_password") ? project.property("maven_password") : System.getenv("MAVEN_PASSWORD")
 ]
 
+
 apply plugin: 'java'
 apply plugin: 'idea'
+apply plugin: org.springframework.boot.gradle.plugin.SpringBootPlugin
 apply plugin: 'groovy'
 apply plugin: 'application'
-apply plugin: 'org.springframework.boot'
 apply plugin: 'whitesource'
 apply plugin: 'findbugs'
 
@@ -31,17 +32,6 @@ findbugs {
     findbugsTest.enabled = false
     sourceSets = [sourceSets.main]
 }
-
-jar {
-    baseName = 'hello-world-java'
-    version = '0.1.0'
-}
-
-bootRepackage {
-    mainClass = 'com.heed.mp.helloworld.Application'
-}
-
-mainClassName = 'com.heed.mp.helloworld.Application'
 
 repositories {
     mavenCentral()
@@ -74,7 +64,7 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-jcl:${deps.log4jVersion}"
     compile "org.apache.logging.log4j:log4j-slf4j-impl:${deps.log4jVersion}" // send all slf4j events to log4j 2.x
 
-    compile "com.heed:heed-java-common:0.2.6"
+    compile "com.heed:heed-java-common:0.3.1"
 
     // General
     compileOnly "org.projectlombok:lombok:${deps.lombockVersion}"
@@ -99,6 +89,15 @@ dependencies {
     testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 
+    //Message queuing
+    compile 'org.springframework.boot:spring-boot-starter-amqp'
+    compile group: 'com.netshoes', name: 'spring-cloud-sleuth-amqp-starter', version: '0.9'
+    compile "org.springframework.amqp:spring-amqp"
+
+    //Rabbit Message Queuing
+    testCompile 'org.springframework.amqp:spring-amqp'
+    testCompile 'org.springframework.amqp:spring-rabbit'
+
 }
 
 
@@ -113,6 +112,7 @@ task wrapper(type: Wrapper) {
 }
 
 whitesource {
+    failOnError = false
     orgToken 'e9810628-e468-48af-8c37-4b6cb684178a' // replace with you organization token
     productName 'Platform'
 }
