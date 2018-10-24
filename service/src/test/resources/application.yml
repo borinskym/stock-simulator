@@ -1,9 +1,0 @@
-message-queue:
-  host: ${RABBITMQ_HOST:localhost}
-  userName: guest
-  password: guest
-  virtualHost: /
-  exchanges:
-    triggersExchangeName: triggersExchange
-  names:
-    liveEventLogger: liveEventQueue
