@@ -45,6 +45,7 @@ mainClassName = 'com.heed.mp.helloworld.Application'
 
 repositories {
     mavenCentral()
+    jcenter()
 
     maven {
         credentials {
@@ -88,6 +89,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-actuator"
     compile "org.springframework.cloud:spring-cloud-starter-vault-config:1.1.0.RELEASE"
     compile 'io.sentry:sentry-spring:1.6.5'
+    compile 'io.ticktok:ticktok-java-client:0.3.0'
 
     // Java test
     testCompile 'org.hamcrest:hamcrest-all:1.3'
