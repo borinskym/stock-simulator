@@ -1,25 +1,11 @@
 package com.heed.mp.helloworld;
 
-import io.ticktok.Ticktok;
-import io.ticktok.TicktokOptions;
-import lombok.EqualsAndHashCode;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
-@RestController
+//@RestController
 public class TicktokController {
 
-    private final List<TickRow> ticks = new ArrayList<>();
+    /*private final List<TickRow> ticks = new ArrayList<>();
 
     private Ticktok createTicktok() {
         return new Ticktok(TicktokOptions.builder().domain("http://int-ticktok.heed-dev.io").token("ticktok@heed").build());
@@ -60,5 +46,5 @@ public class TicktokController {
                     schedule + "," +
                     new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date(timestamp));
         }
-    }
+    }*/
 }
