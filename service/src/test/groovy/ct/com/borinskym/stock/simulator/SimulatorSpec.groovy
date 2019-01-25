@@ -16,10 +16,10 @@ class SimulatorSpec extends Specification {
 
     def "should run dummy simulation"(){
         when:
-        def ans = app.runSimulation([strategy: 'harry-light',
+        def ans = app.runSimulation([strategy: 'no-investment',
                            initialAmount: 4000])
         then:
-        assert ans['endAmount'] == 8000
+        assert ans['endAmount'] == 4000
     }
 
     def "should fail when strategy not found"(){

@@ -23,9 +23,10 @@ public class SimulationController {
     @PostMapping("/run")
     public ResponseEntity<String> runSimulation(@RequestBody SimulationRequest simulationRequest){
         try{
-            SimulationRunner simulation = new SimulatorFactory(simulationsByName).getByName(simulationRequest.getStrategy());
-            return ResponseEntity.ok(
-                    new Gson().toJson(SimulationResponse.from(simulation.run(simulationRequest))));
+            SimulationRunner simulation = new SimulatorFactory(simulationsByName)
+                    .getByName(simulationRequest.getStrategy());
+            return ResponseEntity.ok(new Gson().toJson(
+                    SimulationResponse.from(simulation.run(simulationRequest))));
         }catch (SimulatorFactory.CouldNotFindSimulation e){
             return ResponseEntity.badRequest().body("simulation name invalid");
         }

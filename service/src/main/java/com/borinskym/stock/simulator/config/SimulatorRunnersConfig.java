@@ -1,5 +1,6 @@
 package com.borinskym.stock.simulator.config;
 
+import com.borinskym.stock.simulator.SimulationRequest;
 import com.borinskym.stock.simulator.runners.SimulationRunner;
 import com.google.common.collect.ImmutableMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,11 @@ public class SimulatorRunnersConfig {
     @Bean(value = "simulationsRunnersByName")
     @Scope(BeanDefinition.SCOPE_SINGLETON)
     public Map<String, SimulationRunner> simulationsByName() {
-        return ImmutableMap.of("harry-light", simulationRunner);
+        return ImmutableMap.of(
+                "harry-light", simulationRunner,
+                "no-investment", SimulationRequest::getInitialAmount
+        );
     }
-
 
 
 }

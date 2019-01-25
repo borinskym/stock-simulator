@@ -9,5 +9,4 @@ public class HarrySimpleSimulationRunner implements SimulationRunner {
     public double run(SimulationRequest request) {
         return 8000;
     }
-
 }
