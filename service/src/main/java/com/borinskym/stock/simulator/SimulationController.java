@@ -2,6 +2,7 @@ package com.borinskym.stock.simulator;
 
 import com.borinskym.stock.simulator.runners.SimulationRunner;
 import com.borinskym.stock.simulator.runners.SimulatorFactory;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +21,13 @@ public class SimulationController {
     Map<String, SimulationRunner> simulationsByName;
 
     @PostMapping("/run")
-    public ResponseEntity<SimulationResponse> runSimulation(@RequestBody SimulationRequest simulationRequest){
+    public ResponseEntity<String> runSimulation(@RequestBody SimulationRequest simulationRequest){
         try{
             SimulationRunner simulation = new SimulatorFactory(simulationsByName).getByName(simulationRequest.getStrategy());
-            return ResponseEntity.ok(SimulationResponse.from(simulation.run(simulationRequest)));
+            return ResponseEntity.ok(
+                    new Gson().toJson(SimulationResponse.from(simulation.run(simulationRequest))));
         }catch (SimulatorFactory.CouldNotFindSimulation e){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body("simulation name invalid");
         }
     }
 }
