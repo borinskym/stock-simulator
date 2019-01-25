@@ -12,10 +12,15 @@ class AppDriver {
         Application.main()
     }
 
-    def isGreeting() {
-        def response = client.get(path: '/v1/greeting')
+    def runSimulation(def simulationRequest){
+
+        def response = client.post(path: "/v1/simulation/run",
+                body:  simulationRequest,
+                contentType: "application/json"
+
+        )
         assert response.status == 200
-        receivedGreeting = response.data
+        response.data
     }
 
     void retrievedGreetingIs(String greeting) {

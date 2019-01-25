@@ -1,0 +1,8 @@
+simulator:
+  strategies:
+    harry-light:
+      rootFolder: harry-light
+      bank-file:  bank.csv
+      debentures-file: debentures.csv
+      gold-file: gold.csv
+      bond-file: S&P500.csv
