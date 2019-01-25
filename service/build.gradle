@@ -47,13 +47,6 @@ repositories {
     mavenCentral()
     jcenter()
 
-    maven {
-        credentials {
-            username maven.username
-            password maven.password
-        }
-        url "https://nexus.heed-dev.io/repository/heed-maven-release/"
-    }
 }
 
 sourceCompatibility = 1.8
@@ -65,7 +58,6 @@ dependencies {
         all*.exclude group: "ch.qos.logback"
         all*.exclude group: "org.slf4j", module: "log4j-over-slf4j" // allow using log4j 2.x
         all*.exclude group: "org.slf4j", module: "slf4j-simple"     // log4j is the configured backend
-        testCompile.exclude group: 'org.springframework.cloud', module: "spring-cloud-starter-vault-config"
         //exclude vault for tests
     }
     compile "org.springframework.boot:spring-boot-starter-log4j2:${deps.springBootVersion}"
@@ -74,8 +66,6 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-web:${deps.log4jVersion}"
     compile "org.apache.logging.log4j:log4j-jcl:${deps.log4jVersion}"
     compile "org.apache.logging.log4j:log4j-slf4j-impl:${deps.log4jVersion}" // send all slf4j events to log4j 2.x
-
-    compile "com.heed:heed-java-common:0.2.6"
 
     // General
     compileOnly "org.projectlombok:lombok:${deps.lombockVersion}"
@@ -87,7 +77,6 @@ dependencies {
     }
     compile "org.springframework.boot:spring-boot-starter-jetty"
     compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.cloud:spring-cloud-starter-vault-config:1.1.0.RELEASE"
     compile 'io.sentry:sentry-spring:1.6.5'
 
     // Java test
