@@ -11,4 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SimulationResponse {
     double endAmount;
+
+    public static SimulationResponse from(double endAmount){
+        return new SimulationResponse(endAmount);
+    }
 }

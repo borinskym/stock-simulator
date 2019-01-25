@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @NoArgsConstructor
 public class SimulationRequest {
     @NotEmpty
-    String strategy;
+    private String strategy;
     @NotEmpty
-    Integer initialAmount;
+    private Integer initialAmount;
 }
