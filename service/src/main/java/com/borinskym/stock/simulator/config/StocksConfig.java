@@ -28,7 +28,7 @@ public class StocksConfig {
     }
 
 
-    @Bean(value = "stockInfo")
+    @Bean(value = "stocksInfo")
     @Scope(BeanDefinition.SCOPE_SINGLETON)
     public Map<String, List<StockInfo>> stocksInfo(@Qualifier("stockFiles") Map<String, String> fileByStock) {
         return new FileNameToStockInfoConvertor(fileByStock).convert();
