@@ -28,6 +28,5 @@ public class SimulationController {
             return ResponseEntity.badRequest().build();
         }
     }
-
 }
 
