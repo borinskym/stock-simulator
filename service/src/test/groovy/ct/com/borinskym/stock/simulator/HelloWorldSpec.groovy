@@ -1,4 +1,4 @@
-package ct.com.heed.mp.helloworld
+package ct.com.borinskym.stock.simulator
 
 import spock.lang.Shared
 import spock.lang.Specification

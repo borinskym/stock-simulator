@@ -1,4 +1,4 @@
-package test.com.heed.mp.helloworld;
+package test.com.borinskym.stock.simulator;
 
 import org.junit.Test;
 

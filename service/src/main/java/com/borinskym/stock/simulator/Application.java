@@ -1,4 +1,4 @@
-package com.heed.mp.helloworld;
+package com.borinskym.stock.simulator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

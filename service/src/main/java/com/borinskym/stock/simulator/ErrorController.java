@@ -1,4 +1,4 @@
-package com.heed.mp.helloworld;
+package com.borinskym.stock.simulator;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

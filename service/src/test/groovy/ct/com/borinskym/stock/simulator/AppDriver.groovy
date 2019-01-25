@@ -1,6 +1,6 @@
-package ct.com.heed.mp.helloworld
+package ct.com.borinskym.stock.simulator
 
-import com.heed.mp.helloworld.Application
+import com.borinskym.stock.simulator.Application
 import groovyx.net.http.RESTClient
 
 class AppDriver {
