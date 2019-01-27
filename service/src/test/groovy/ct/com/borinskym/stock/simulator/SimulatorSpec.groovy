@@ -1,6 +1,5 @@
 package ct.com.borinskym.stock.simulator
 
-import groovyx.net.http.HttpResponseException
 import spock.lang.Shared
 import spock.lang.Specification
 
@@ -16,19 +15,9 @@ class SimulatorSpec extends Specification {
 
     def "should run dummy simulation"(){
         when:
-        def ans = app.runSimulation([strategy: 'no-investment',
-                           initialAmount: 4000])
+        def ans = app.runSimulation([initialAmount: 4000])
         then:
-        assert ans['endAmount'] == 4000
-    }
-
-    def "should fail when strategy not found"(){
-        when:
-        def ans = app.runSimulation([strategy: 'not-found',
-                                     initialAmount: 4000])
-        then:
-        HttpResponseException ex = thrown()
-        ex.response.status == 400
+        assert ans['endAmount'] == 8000
     }
 
 }

@@ -6,13 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class SimulationRequest {
     @NotEmpty
-    private String strategy;
-    @NotEmpty
     private Integer initialAmount;
+    List<StockCalcInfo> stockCalcInfoList;
 }
