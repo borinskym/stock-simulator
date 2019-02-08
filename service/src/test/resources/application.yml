@@ -1,9 +1,5 @@
 simulator:
-  stockFiles:
-    bank-cash:  bank.csv
-    debentures: debentures.csv
-    gold: gold.csv
-    s&p500: S&P500.csv
+  stockFolder: src/test/resources/stocks
 
 
 

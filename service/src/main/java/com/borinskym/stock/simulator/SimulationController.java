@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -19,7 +18,7 @@ public class SimulationController {
 
     @Autowired
     @Qualifier("stocksInfo")
-    Map<String, List<StockInfo>> stocksInfo;
+    Map<Long, Map<String, Double>> stocksInfo;
 
     @PostMapping("/run")
     public ResponseEntity<String> runSimulation(@RequestBody SimulationRequest simulationRequest){
@@ -27,4 +26,3 @@ public class SimulationController {
                     SimulationResponse.from(new SimulationRunner(simulationRequest, stocksInfo).run())));
     }
 }
-
