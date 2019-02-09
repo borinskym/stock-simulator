@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 @Data
 @Configuration
@@ -18,7 +19,7 @@ public class StocksConfig {
 
     @Bean(value = "stocksInfo")
     @Scope(BeanDefinition.SCOPE_SINGLETON)
-    public Map<Long, Map<String, Double>> stocksInfo(@Value("${simulator.stockFolder}") String  stocksFolder) {
+    public TreeMap<Long, Map<String, Double>> stocksInfo(@Value("${simulator.stockFolder}") String  stocksFolder) {
         return new StockParser(stocksFolder).parse();
     }
 }

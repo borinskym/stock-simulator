@@ -1,19 +1,17 @@
 package com.borinskym.stock.simulator;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder
 public class SimulationRequest {
     @NotEmpty
     private Integer initialAmount;
-    List<StockCalcInfo> stockCalcInfoList;
+    private Map<String, Double> percentageBySymbol;
 }

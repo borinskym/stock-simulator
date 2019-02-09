@@ -27,9 +27,9 @@ public class StockParser {
         this.stocksFolder = stocksFolder;
     }
 
-    public Map<Long, Map<String, Double>> parse(){
+    public TreeMap<Long, Map<String, Double>> parse(){
         verifyFolderExist(stocksFolder);
-        Map<Long, Map<String, Double>> ans = new TreeMap<>();
+        TreeMap<Long, Map<String, Double>> ans = new TreeMap<>();
         for(File stockFile: requireNonNull(new File(stocksFolder).listFiles())){
             addStockInfoToMap(ans, stockFile);
         }

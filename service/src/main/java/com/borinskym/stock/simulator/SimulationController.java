@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 @RestController
 @RequestMapping("/v1/simulation")
@@ -18,7 +19,7 @@ public class SimulationController {
 
     @Autowired
     @Qualifier("stocksInfo")
-    Map<Long, Map<String, Double>> stocksInfo;
+    TreeMap<Long, Map<String, Double>> stocksInfo;
 
     @PostMapping("/run")
     public ResponseEntity<String> runSimulation(@RequestBody SimulationRequest simulationRequest){
