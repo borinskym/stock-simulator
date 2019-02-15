@@ -2,6 +2,7 @@ jobs:
   build:
     docker:
       - image: buildpack-deps:trusty
+    working_directory: ~/project
     branches:
       only:
         - develop
