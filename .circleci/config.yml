@@ -7,4 +7,6 @@ jobs:
       only:
         - develop
     steps:
+      - checkout:
+                path: ~/project
       - run: ./gradlew test
