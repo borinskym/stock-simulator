@@ -24,17 +24,12 @@ public class SimulationRunner {
         stocksInfo.remove(stocksInfo.firstEntry().getKey());
 
         for (Map<String, Double> priceByStockName : stocksInfo.values()) {
-            amountByStockName = calculateNewStocksAmount(amountByStockName, priceByStockName);
+            double current = new CalculateTotalAmountCommand(amountByStockName, priceByStockName)
+                    .execute();
+            amountByStockName  = calculateStockAmounts(priceByStockName, current);
         }
         return new CalculateTotalAmountCommand(amountByStockName, stocksInfo.lastEntry().getValue())
                 .execute();
-    }
-
-    private Map<String, Double> calculateNewStocksAmount(Map<String, Double> amountByStockName, Map<String, Double> priceByStockName) {
-        double current = new CalculateTotalAmountCommand(amountByStockName, priceByStockName)
-                .execute();
-        amountByStockName = calculateStockAmounts(priceByStockName, current);
-        return amountByStockName;
     }
 
     private Map<String, Double> calculateStockAmounts(Map<String, Double> priceByStock, Double initialAmount) {
