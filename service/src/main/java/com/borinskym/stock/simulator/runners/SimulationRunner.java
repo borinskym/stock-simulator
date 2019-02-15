@@ -5,21 +5,45 @@ import lombok.AllArgsConstructor;
 
 import java.util.Map;
 import java.util.TreeMap;
+/*
+        1. start with initialAmount dollars
+        2. spilt the initialAmount dollars amongs the stocks: calculate how much stock from every kind
+        3. for every time frame do :
+            3.1 get the money back from the investment
+            3.2 split the money again to quantity of the stocks
 
+        4. get the money total based on the stocks and the last socksInfo
+     */
 @AllArgsConstructor
 public class SimulationRunner {
     private SimulationRequest request;
     private TreeMap<Long, Map<String, Double>> stocksInfo;
 
     public double run() {
-        double currentAmount = request.getInitialAmount();
-        for (Long key : stocksInfo.keySet()) {
-            double tempAmount = 0;
-            for (Map.Entry<String, Double> percentageBySymbol : request.getPercentageBySymbol().entrySet()) {
-                tempAmount += (currentAmount * percentageBySymbol.getValue()) * stocksInfo.get(key).get(percentageBySymbol.getKey());
-            }
-            currentAmount = tempAmount;
+        Map<String, Double> amountByStockName = calculateStockAmounts(stocksInfo.firstEntry().getValue(), request.getInitialAmount());
+        stocksInfo.remove(stocksInfo.firstEntry().getKey());
+
+        for (Map<String, Double> priceByStockName : stocksInfo.values()) {
+            amountByStockName = calculateNewStocksAmount(amountByStockName, priceByStockName);
         }
-        return currentAmount;
+        return new CalculateTotalAmountCommand(amountByStockName, stocksInfo.lastEntry().getValue())
+                .execute();
     }
+
+    private Map<String, Double> calculateNewStocksAmount(Map<String, Double> amountByStockName, Map<String, Double> priceByStockName) {
+        double current = new CalculateTotalAmountCommand(amountByStockName, priceByStockName)
+                .execute();
+        amountByStockName = calculateStockAmounts(priceByStockName, current);
+        return amountByStockName;
+    }
+
+    private Map<String, Double> calculateStockAmounts(Map<String, Double> priceByStock, Double initialAmount) {
+        return new CalculateStockHoldingCommand(
+                initialAmount,
+                priceByStock,
+                request.getPercentageBySymbol())
+                .execute();
+    }
+
+
 }

@@ -12,6 +12,6 @@ import java.util.Map;
 @Builder
 public class SimulationRequest {
     @NotEmpty
-    private Integer initialAmount;
+    private Double initialAmount;
     private Map<String, Double> percentageBySymbol;
 }
