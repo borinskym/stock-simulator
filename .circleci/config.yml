@@ -1,0 +1,9 @@
+jobs:
+  build:
+    docker:
+      - image: buildpack-deps:trusty
+    branches:
+      only:
+        - develop
+    steps:
+      - run: ./gradlew test
