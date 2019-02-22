@@ -20,7 +20,7 @@ public class SimulationRunner {
     private TreeMap<Long, Map<String, Double>> stocksInfo;
 
     public double run() {
-        Map<String, Double> amountByStockName = calculateStockAmounts(stocksInfo.firstEntry().getValue(), request.getInitialAmount());
+        Map<String, Double> amountByStockName = calculateInitialSockHoldings();
         stocksInfo.remove(stocksInfo.firstEntry().getKey());
 
         for (Map<String, Double> priceByStockName : stocksInfo.values()) {
@@ -28,8 +28,16 @@ public class SimulationRunner {
                     .execute();
             amountByStockName  = calculateStockAmounts(priceByStockName, current);
         }
+        return calculateFinalValue(amountByStockName);
+    }
+
+    private double calculateFinalValue(Map<String, Double> amountByStockName) {
         return new CalculateTotalAmountCommand(amountByStockName, stocksInfo.lastEntry().getValue())
                 .execute();
+    }
+
+    private Map<String, Double> calculateInitialSockHoldings() {
+        return calculateStockAmounts(stocksInfo.firstEntry().getValue(), request.getInitialAmount());
     }
 
     private Map<String, Double> calculateStockAmounts(Map<String, Double> priceByStock, Double initialAmount) {
@@ -39,6 +47,4 @@ public class SimulationRunner {
                 request.getPercentageBySymbol())
                 .execute();
     }
-
-
 }
