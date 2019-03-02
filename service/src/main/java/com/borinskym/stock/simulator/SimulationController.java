@@ -23,8 +23,28 @@ public class SimulationController {
     TreeMap<SparseDate, Map<String, Double>> stocksInfo;
 
     @PostMapping("/run")
-    public ResponseEntity<String> runSimulation(@RequestBody SimulationRequest simulationRequest){
-            return ResponseEntity.ok(new Gson().toJson(
-                    SimulationResponse.from(new SimulationRunner(simulationRequest, stocksInfo).run())));
+    public ResponseEntity<String> runSimulation(@RequestBody SimulationRequest simulationRequest) {
+        validate(simulationRequest);
+        return ResponseEntity.ok(new Gson().toJson(
+                SimulationResponse.from(new SimulationRunner(simulationRequest, stocksInfo).run())));
+    }
+
+    private void validate(SimulationRequest simulationRequest) {
+        if (sumRequestPercentages(simulationRequest) != 1.0) {
+            throw new RestValidationException("percentage doesnt sum to 1.0");
+        }
+    }
+
+    private double sumRequestPercentages(SimulationRequest simulationRequest) {
+        return simulationRequest.getPercentageBySymbol().values().stream()
+                .mapToDouble(a -> a)
+                .sum();
+    }
+
+
+    public static class RestValidationException extends RuntimeException{
+        public RestValidationException(String message) {
+            super(message);
+        }
     }
 }
