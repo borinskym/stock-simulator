@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/simulation")
@@ -22,6 +24,10 @@ public class SimulationController {
     @Qualifier("stocksInfo")
     TreeMap<SparseDate, Map<String, Double>> stocksInfo;
 
+    @Autowired
+    @Qualifier("stocksSymbols")
+    Set<String> stocksSymbols;
+
     @PostMapping("/run")
     public ResponseEntity<String> runSimulation(@RequestBody SimulationRequest simulationRequest) {
         validate(simulationRequest);
@@ -30,6 +36,22 @@ public class SimulationController {
     }
 
     private void validate(SimulationRequest simulationRequest) {
+        validatePercentage(simulationRequest);
+        validateSymbols(simulationRequest);
+    }
+
+    private void validateSymbols(SimulationRequest simulationRequest) {
+        Set<String> notFoundSymbols = simulationRequest.getPercentageBySymbol().keySet()
+                .stream()
+                .filter(symbol -> !stocksSymbols.contains(symbol))
+                .collect(Collectors.toSet());
+
+        if(! notFoundSymbols.isEmpty()){
+            throw new RestValidationException(String.format("symbols didnt found: %s", notFoundSymbols.stream().collect(Collectors.joining(","))));
+        }
+    }
+
+    private void validatePercentage(SimulationRequest simulationRequest) {
         if (sumRequestPercentages(simulationRequest) != 1.0) {
             throw new RestValidationException("percentage doesnt sum to 1.0");
         }

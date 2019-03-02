@@ -1,5 +1,5 @@
 simulator:
-  stockFolder: src/main/resources/stocks
+  stockFolder: /Users/mborinsky/mich/stock-simulator/service/src/main/resources/stocks
 
 
 
