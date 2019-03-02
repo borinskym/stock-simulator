@@ -1,6 +1,7 @@
 package com.borinskym.stock.simulator.runners;
 
 import com.borinskym.stock.simulator.SimulationRequest;
+import com.borinskym.stock.simulator.date.SparseDate;
 import lombok.AllArgsConstructor;
 
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.TreeMap;
 @AllArgsConstructor
 public class SimulationRunner {
     private SimulationRequest request;
-    private TreeMap<Long, Map<String, Double>> stocksInfo;
+    private TreeMap<SparseDate, Map<String, Double>> stocksInfo;
 
     public double run() {
         Map<String, Double> amountByStockName = calculateInitialSockHoldings();

@@ -1,6 +1,7 @@
 package com.borinskym.stock.simulator.runners;
 
 import com.borinskym.stock.simulator.SimulationRequest;
+import com.borinskym.stock.simulator.date.SparseDate;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
@@ -28,17 +29,17 @@ public class SimulationRunnerTest {
                 .build();
     }
 
-    private TreeMap<Long, Map<String, Double>> stocksInfo() {
+    private TreeMap<SparseDate, Map<String, Double>> stocksInfo() {
         return new TreeMap<>(
                 ImmutableMap.of(
-                        1L, ImmutableMap.of(
+                        SparseDate.from(2014, 1), ImmutableMap.of(
                                 "a", 20.0,
                                 "b", 25.0),
-                        2L, ImmutableMap.of(
+                        SparseDate.from(2014, 2), ImmutableMap.of(
                                 "a", 40.0,
                                 "b", 60.0
                         ),
-                        3L, ImmutableMap.of(
+                        SparseDate.from(2014, 3), ImmutableMap.of(
                                 "a", 35.0,
                                 "b", 70.0
                         )));

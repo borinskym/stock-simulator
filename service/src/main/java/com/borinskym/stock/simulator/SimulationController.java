@@ -1,5 +1,6 @@
 package com.borinskym.stock.simulator;
 
+import com.borinskym.stock.simulator.date.SparseDate;
 import com.borinskym.stock.simulator.runners.SimulationRunner;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class SimulationController {
 
     @Autowired
     @Qualifier("stocksInfo")
-    TreeMap<Long, Map<String, Double>> stocksInfo;
+    TreeMap<SparseDate, Map<String, Double>> stocksInfo;
 
     @PostMapping("/run")
     public ResponseEntity<String> runSimulation(@RequestBody SimulationRequest simulationRequest){

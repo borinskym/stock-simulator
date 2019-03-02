@@ -1,6 +1,7 @@
 package com.borinskym.stock.simulator.config;
 
 import com.borinskym.stock.simulator.csv.StockParser;
+import com.borinskym.stock.simulator.date.SparseDate;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -19,7 +20,7 @@ public class StocksConfig {
 
     @Bean(value = "stocksInfo")
     @Scope(BeanDefinition.SCOPE_SINGLETON)
-    public TreeMap<Long, Map<String, Double>> stocksInfo(@Value("${simulator.stockFolder}") String  stocksFolder) {
+    public TreeMap<SparseDate, Map<String, Double>> stocksInfo(@Value("${simulator.stockFolder}") String  stocksFolder) {
         return new StockParser(stocksFolder).parse();
     }
 }

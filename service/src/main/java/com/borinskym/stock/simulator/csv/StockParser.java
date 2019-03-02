@@ -1,10 +1,10 @@
 package com.borinskym.stock.simulator.csv;
 
 import com.borinskym.stock.simulator.StockInfo;
+import com.borinskym.stock.simulator.date.SparseDate;
 import com.google.common.collect.ImmutableMap;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
-import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.FileReader;
@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import static java.lang.Integer.parseInt;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.io.FilenameUtils.removeExtension;
 
@@ -27,9 +28,9 @@ public class StockParser {
         this.stocksFolder = stocksFolder;
     }
 
-    public TreeMap<Long, Map<String, Double>> parse(){
+    public TreeMap<SparseDate, Map<String, Double>> parse(){
         verifyFolderExist(stocksFolder);
-        TreeMap<Long, Map<String, Double>> ans = new TreeMap<>();
+        TreeMap<SparseDate, Map<String, Double>> ans = new TreeMap<>();
         for(File stockFile: requireNonNull(new File(stocksFolder).listFiles())){
             addStockInfoToMap(ans, stockFile);
         }
@@ -43,28 +44,33 @@ public class StockParser {
         }
     }
 
-    private void addStockInfoToMap(Map<Long, Map<String, Double>> ans, File stockFile) {
+    private void addStockInfoToMap(Map<SparseDate, Map<String, Double>> ans, File stockFile) {
         for(StockInfo stockInfo: stockInfo(stockFile.getAbsolutePath())){
-            Map<String, Double> current = ans.getOrDefault(stockInfo.getTimestamp(), new HashMap<>());
+            Map<String, Double> current = ans.getOrDefault(stockInfo.getTime(), new HashMap<>());
             current.put(removeExtension(stockFile.getName()), stockInfo.getValue());
-            ans.put(stockInfo.getTimestamp(), current);
+            ans.put(stockInfo.getTime(), current);
         }
     }
 
-    private Map<Long, Map<String, Double>> from(List<StockInfo> stockInfos, String name){
+    private Map<SparseDate, Map<String, Double>> from(List<StockInfo> stockInfos, String name){
         return stockInfos.stream().collect(Collectors.toMap(
-                StockInfo::getTimestamp,
+                StockInfo::getTime,
                 stockInfo -> ImmutableMap.of(name, stockInfo.getValue())));
     }
 
     private List<StockInfo> stockInfo(String file) {
         try (CSVReader csvReader = new CSVReaderBuilder(new FileReader(file)).withSkipLines(1).build()) {
            return csvReader.readAll().stream()
-                    .map(line -> StockInfo.from(DateTime.parse(line[0]).getMillis(), Double.parseDouble(line[1])))
+                    .map(line -> StockInfo.from(toSparseDate(line[0]), Double.parseDouble(line[1])))
                     .collect(Collectors.toList());
         }catch (IOException e){
             throw new CouldNotParseFile(e);
         }
+    }
+
+    private SparseDate toSparseDate(String s) {
+        String[] date = s.split("/");
+        return SparseDate.from(parseInt(date[1]), parseInt(date[0]));
     }
 
     public class CouldNotParseFile extends RuntimeException{
