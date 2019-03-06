@@ -29,10 +29,14 @@ public class SimulationController {
 
     @PostMapping("/run")
     public ResponseEntity<String> runSimulation(@RequestBody SimulationRequest simulationRequest) {
-        new InputValidator(stocksInfo, simulationRequest, stocksSymbols).validate();
+        new InputValidator(
+                stocksInfo,
+                simulationRequest,
+                stocksSymbols)
+                .validate();
 
         return ResponseEntity.ok(new Gson().toJson(
-                SimulationResponse.from(new ProfitCalculator(simulationRequest, stocksInfo).calculate())));
+                SimulationResponse.from(new ProfitCalculator(simulationRequest, new TreeMap<>(stocksInfo)).calculate())));
     }
 
 }
