@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @ControllerAdvice
 public class ControllerExceptionHandler {
-    @ExceptionHandler(SimulationController.RestValidationException.class)
+    @ExceptionHandler(InputValidator.ValidationFailed.class)
     public ResponseEntity<?> handleException(HttpServletRequest request, Exception ex) {
         log.error("caught an exception in controller: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());

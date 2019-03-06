@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/simulation")
@@ -30,45 +29,10 @@ public class SimulationController {
 
     @PostMapping("/run")
     public ResponseEntity<String> runSimulation(@RequestBody SimulationRequest simulationRequest) {
-        validate(simulationRequest);
-        SparseDate start = SparseDate.parse(simulationRequest.getStartDate());
-        SparseDate end = SparseDate.parse(simulationRequest.getEndDate());
+        new InputValidator(stocksInfo, simulationRequest, stocksSymbols).validate();
+
         return ResponseEntity.ok(new Gson().toJson(
                 SimulationResponse.from(new ProfitCalculator(simulationRequest, stocksInfo).calculate())));
     }
 
-    private void validate(SimulationRequest simulationRequest) {
-        validatePercentage(simulationRequest);
-        validateSymbols(simulationRequest);
-    }
-
-    private void validateSymbols(SimulationRequest simulationRequest) {
-        Set<String> notFoundSymbols = simulationRequest.getPercentageBySymbol().keySet()
-                .stream()
-                .filter(symbol -> !stocksSymbols.contains(symbol))
-                .collect(Collectors.toSet());
-
-        if(! notFoundSymbols.isEmpty()){
-            throw new RestValidationException(String.format("symbols didnt found: %s", notFoundSymbols.stream().collect(Collectors.joining(","))));
-        }
-    }
-
-    private void validatePercentage(SimulationRequest simulationRequest) {
-        if (sumRequestPercentages(simulationRequest) != 1.0) {
-            throw new RestValidationException("percentage doesnt sum to 1.0");
-        }
-    }
-
-    private double sumRequestPercentages(SimulationRequest simulationRequest) {
-        return simulationRequest.getPercentageBySymbol().values().stream()
-                .mapToDouble(a -> a)
-                .sum();
-    }
-
-
-    public static class RestValidationException extends RuntimeException{
-        public RestValidationException(String message) {
-            super(message);
-        }
-    }
 }

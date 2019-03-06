@@ -52,7 +52,20 @@ class SimulatorSpec extends Specification {
         assert restException.response.status == 400
     }
 
-    def "should run simulation"() {
+    def "should fail calculating profit when stock info not found for date"() {
+        when:
+        app.runSimulation([initialAmount     : 4000,
+                           percentageBySymbol: ["bank": 1.0],
+                           startDate         : "01/2003",
+                           endDate           : "02/2004"
+        ])
+
+        then:
+        HttpResponseException restException = thrown();
+        assert restException.response.status == 400
+    }
+
+    def "should calculate profit"() {
         when:
         def ans = app.runSimulation([
                 initialAmount     : 4000,
@@ -62,11 +75,12 @@ class SimulatorSpec extends Specification {
                         "gold"      : 0.25,
                         "S&P500"    : 0.25
                 ],
-                startDate: "01/2004",
-                endDate: "02/2004"
+                startDate         : "01/2004",
+                endDate           : "02/2004"
         ])
         then:
         assert ans['endAmount'] == 8000
     }
+
 
 }
