@@ -34,25 +34,30 @@ public class ProfitCalculator {
     }
 
     private double calculate(SortedMap<SparseDate, Map<String, Double>> input) {
-        Map<String, Double> amountByStockName = calculateInitialSockHoldings(input);
+
+        Map<String, Double> amountByStockName = calculateStockAmounts(firstValue(input), request.getInitialAmount());
         input.remove(input.firstKey());
 
         for (Map<String, Double> priceByStockName : input.values()) {
-            double current = new CalculateTotalAmountCommand(amountByStockName, priceByStockName)
-                    .execute();
+            double current = calcTotal(amountByStockName, priceByStockName);
             amountByStockName = calculateStockAmounts(priceByStockName, current);
         }
-        return calculateFinalValue(amountByStockName, input);
+
+        return calcTotal(amountByStockName, lastStockInfo(input));
     }
 
-    private double calculateFinalValue(Map<String, Double> amountByStockName, SortedMap<SparseDate, Map<String, Double>> subMap) {
-        return new CalculateTotalAmountCommand(amountByStockName, subMap.get(subMap.lastKey()))
-                .execute();
+    private Map<String, Double> firstValue(SortedMap<SparseDate, Map<String, Double>> input) {
+        return input.get(input.firstKey());
     }
 
-    private Map<String, Double> calculateInitialSockHoldings(SortedMap<SparseDate, Map<String, Double>> subMap) {
+    private Map<String, Double> lastStockInfo(SortedMap<SparseDate, Map<String, Double>> input) {
+        return input.get(input.lastKey());
+    }
 
-        return calculateStockAmounts(subMap.get(subMap.firstKey()), request.getInitialAmount());
+    private double calcTotal(Map<String, Double> amountByStock, Map<String, Double> priceByStockName){
+        return amountByStock.entrySet().stream()
+                .mapToDouble(e -> e.getValue() * priceByStockName.get(e.getKey()))
+                .sum();
     }
 
     private Map<String, Double> calculateStockAmounts(Map<String, Double> priceByStock, Double initialAmount) {
