@@ -14,4 +14,6 @@ public class SimulationRequest {
     @NotEmpty
     private Double initialAmount;
     private Map<String, Double> percentageBySymbol;
+    private String startDate;
+    private String endDate;
 }

@@ -1,7 +1,7 @@
 package com.borinskym.stock.simulator;
 
 import com.borinskym.stock.simulator.date.SparseDate;
-import com.borinskym.stock.simulator.runners.SimulationRunner;
+import com.borinskym.stock.simulator.runners.ProfitCalculator;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,8 +31,10 @@ public class SimulationController {
     @PostMapping("/run")
     public ResponseEntity<String> runSimulation(@RequestBody SimulationRequest simulationRequest) {
         validate(simulationRequest);
+        SparseDate start = SparseDate.parse(simulationRequest.getStartDate());
+        SparseDate end = SparseDate.parse(simulationRequest.getEndDate());
         return ResponseEntity.ok(new Gson().toJson(
-                SimulationResponse.from(new SimulationRunner(simulationRequest, stocksInfo).run())));
+                SimulationResponse.from(new ProfitCalculator(simulationRequest, stocksInfo).calculate())));
     }
 
     private void validate(SimulationRequest simulationRequest) {

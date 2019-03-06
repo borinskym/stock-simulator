@@ -11,14 +11,19 @@ import java.util.TreeMap;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-public class SimulationRunnerTest {
+public class ProfitCalculatorTest {
 
     @Test
     public void shouldCompute() {
-        assertThat(new SimulationRunner(request(), stocksInfo()).run(), is(22458.333333333336));
+        assertThat(new ProfitCalculator(request("01/2014", "03/2014"), stocksInfo()).calculate(), is(22458.333333333336));
     }
 
-    private SimulationRequest request() {
+    @Test
+    public void shouldComputeWithDates() {
+        assertThat(new ProfitCalculator(request("01/2014", "02/2014"), stocksInfo()).calculate(), is(22000.0));
+    }
+
+    private SimulationRequest request(String startDate, String endDate) {
         return SimulationRequest.builder()
                 .initialAmount(10000.0)
                 .percentageBySymbol(
@@ -26,6 +31,8 @@ public class SimulationRunnerTest {
                                 "a", 0.5,
                                 "b", 0.5
                         ))
+                .startDate(startDate)
+                .endDate(endDate)
                 .build();
     }
 

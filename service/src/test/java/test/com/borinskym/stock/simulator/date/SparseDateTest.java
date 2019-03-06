@@ -3,6 +3,7 @@ package test.com.borinskym.stock.simulator.date;
 import org.junit.Test;
 
 import static com.borinskym.stock.simulator.date.SparseDate.from;
+import static com.borinskym.stock.simulator.date.SparseDate.parse;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
 import static org.hamcrest.number.OrderingComparison.lessThan;
@@ -34,6 +35,13 @@ public class SparseDateTest {
     @Test
     public void shouldBeEquals() {
         assertThat(from(2015, 3).compareTo(from(2015, 3)), is(0));
+    }
+
+
+
+    @Test
+    public void shouldParseFromString() {
+        assertThat(parse("01/2014"), is(from(2014, 1)));
     }
 
 }

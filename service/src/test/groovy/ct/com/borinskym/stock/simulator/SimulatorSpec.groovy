@@ -13,11 +13,11 @@ class SimulatorSpec extends Specification {
         app.start()
     }
 
-    def cleanupSpec(){
+    def cleanupSpec() {
         app.stop();
     }
 
-    def "should get all symbols"(){
+    def "should get all symbols"() {
         when:
         def ans = app.symbols()
 
@@ -25,11 +25,11 @@ class SimulatorSpec extends Specification {
         assert ans == ["gold", "bank", "debentures", "S&P500"]
     }
 
-    def "should fail when symbol not found"(){
+    def "should fail when symbol not found"() {
         when:
         app.runSimulation([initialAmount     : 4000,
                            percentageBySymbol: [
-                                   "NOT_FOUND"      : 1.0
+                                   "NOT_FOUND": 1.0
                            ]])
 
         then:
@@ -39,13 +39,13 @@ class SimulatorSpec extends Specification {
 
     def "should fail when percentages doesnt sum to 100"() {
         when:
-            app.runSimulation([initialAmount     : 4000,
-                                     percentageBySymbol: [
-                                             "bank"      : 0.25,
-                                             "debentures": 0.25,
-                                             "gold"      : 0.25,
-                                             "S&P500"    : 0.15
-                                     ]])
+        app.runSimulation([initialAmount     : 4000,
+                           percentageBySymbol: [
+                                   "bank"      : 0.25,
+                                   "debentures": 0.25,
+                                   "gold"      : 0.25,
+                                   "S&P500"    : 0.15
+                           ]])
 
         then:
         HttpResponseException restException = thrown();
@@ -54,13 +54,17 @@ class SimulatorSpec extends Specification {
 
     def "should run simulation"() {
         when:
-        def ans = app.runSimulation([initialAmount     : 4000,
-                                     percentageBySymbol: [
-                                             "bank"      : 0.25,
-                                             "debentures": 0.25,
-                                             "gold"      : 0.25,
-                                             "S&P500"    : 0.25
-                                     ]])
+        def ans = app.runSimulation([
+                initialAmount     : 4000,
+                percentageBySymbol: [
+                        "bank"      : 0.25,
+                        "debentures": 0.25,
+                        "gold"      : 0.25,
+                        "S&P500"    : 0.25
+                ],
+                startDate: "01/2004",
+                endDate: "02/2004"
+        ])
         then:
         assert ans['endAmount'] == 8000
     }
