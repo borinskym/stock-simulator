@@ -19,11 +19,6 @@ public class ProfitCalculatorTest {
         assertThat(new ProfitCalculator(request("02/2014"), stocksInfo()).calculate(), is(22000.0));
     }
 
-    @Test
-    public void shouldComputeWithoutRebalancing() {
-        assertThat(new ProfitCalculator(request("03/2014"), stocksInfo()).calculate(), is(22458.333333333336));
-    }
-
     private SimulationRequest request(String endDate) {
         return SimulationRequest.builder()
                 .initialAmount(10000.0)
