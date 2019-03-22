@@ -13,24 +13,26 @@ import static org.junit.Assert.assertThat;
 
 public class ProfitCalculatorTest {
 
-
-    private final double initialAmount = 10000.0;
-
     @Test
     public void shouldCompute() {
-        assertThat(new ProfitCalculator(request("01/2014", "03/2014"), stocksInfo()).calculate(), is(22458.333333333336));
-        assertThat(new ProfitCalculator(request("01/2014", "02/2014"), stocksInfo()).calculate(), is(22000.0));
+        assertThat(new ProfitCalculator(request("03/2014"), stocksInfo()).calculate(), is(22458.333333333336));
+        assertThat(new ProfitCalculator(request("02/2014"), stocksInfo()).calculate(), is(22000.0));
     }
 
-    private SimulationRequest request(String startDate, String endDate) {
+    @Test
+    public void shouldComputeWithoutRebalancing() {
+        assertThat(new ProfitCalculator(request("03/2014"), stocksInfo()).calculate(), is(22458.333333333336));
+    }
+
+    private SimulationRequest request(String endDate) {
         return SimulationRequest.builder()
-                .initialAmount(initialAmount)
+                .initialAmount(10000.0)
                 .percentageBySymbol(
                         ImmutableMap.of(
                                 "a", 0.5,
                                 "b", 0.5
                         ))
-                .startDate(startDate)
+                .startDate("01/2014")
                 .endDate(endDate)
                 .build();
     }
